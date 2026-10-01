@@ -1,0 +1,377 @@
+[
+  {
+    "id": "aad-01",
+    "imagePath": "/assets/photos/aad-01.svg",
+    "title": "Night signal 1",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Pacific rim megacity glow."
+    ],
+    "clueTexts": [
+      "Pacific rim megacity glow",
+      "Neon river valleys",
+      "Late-night rail hum"
+    ]
+  },
+  {
+    "id": "aad-02",
+    "imagePath": "/assets/photos/aad-02.svg",
+    "title": "Night signal 2",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Grid of amber windows."
+    ],
+    "clueTexts": [
+      "Grid of amber windows",
+      "Steam and sodium vapor",
+      "24-hour avenue pulse"
+    ]
+  },
+  {
+    "id": "aad-03",
+    "imagePath": "/assets/photos/aad-03.svg",
+    "title": "Night signal 3",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Warm stone under cool moon."
+    ],
+    "clueTexts": [
+      "Warm stone under cool moon",
+      "Cafe awnings after rain",
+      "River mirror light"
+    ]
+  },
+  {
+    "id": "aad-04",
+    "imagePath": "/assets/photos/aad-04.svg",
+    "title": "Night signal 4",
+    "hintTexts": [
+      "Hemisphere: Southern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Harbor ring of light."
+    ],
+    "clueTexts": [
+      "Harbor ring of light",
+      "Southern hemisphere summer nights",
+      "Coastal salt haze"
+    ]
+  },
+  {
+    "id": "aad-05",
+    "imagePath": "/assets/photos/aad-05.svg",
+    "title": "Night signal 5",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Desert air, dense core."
+    ],
+    "clueTexts": [
+      "Desert air, dense core",
+      "Minaret silhouettes",
+      "Dry heat radiating"
+    ]
+  },
+  {
+    "id": "aad-06",
+    "imagePath": "/assets/photos/aad-06.svg",
+    "title": "Night signal 6",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Low sun never truly sets in season."
+    ],
+    "clueTexts": [
+      "Low sun never truly sets in season",
+      "Geothermal steam plumes",
+      "North Atlantic wind"
+    ]
+  },
+  {
+    "id": "aad-07",
+    "imagePath": "/assets/photos/aad-07.svg",
+    "title": "Night signal 7",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: Tropical humidity sheen."
+    ],
+    "clueTexts": [
+      "Tropical humidity sheen",
+      "Port container glow",
+      "Equatorial night warmth"
+    ]
+  },
+  {
+    "id": "aad-08",
+    "imagePath": "/assets/photos/aad-08.svg",
+    "title": "Night signal 8",
+    "hintTexts": [
+      "Hemisphere: Southern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Table-shaped shadow."
+    ],
+    "clueTexts": [
+      "Table-shaped shadow",
+      "Two-ocean breeze",
+      "Southern cross sky"
+    ]
+  },
+  {
+    "id": "aad-09",
+    "imagePath": "/assets/photos/aad-09.svg",
+    "title": "Night signal 9",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: Monsoon-washed asphalt shine."
+    ],
+    "clueTexts": [
+      "Monsoon-washed asphalt shine",
+      "Dense coastal strip",
+      "Arabian Sea edge"
+    ]
+  },
+  {
+    "id": "aad-10",
+    "imagePath": "/assets/photos/aad-10.svg",
+    "title": "Night signal 10",
+    "hintTexts": [
+      "Hemisphere: Southern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Wide boulevard geometry."
+    ],
+    "clueTexts": [
+      "Wide boulevard geometry",
+      "Tango district lamps",
+      "Rio de la Plata mist"
+    ]
+  },
+  {
+    "id": "aad-11",
+    "imagePath": "/assets/photos/aad-11.svg",
+    "title": "Night signal 11",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Brick and fog diffusion."
+    ],
+    "clueTexts": [
+      "Brick and fog diffusion",
+      "River bend bridges",
+      "Temperate marine air"
+    ]
+  },
+  {
+    "id": "aad-12",
+    "imagePath": "/assets/photos/aad-12.svg",
+    "title": "Night signal 12",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: Vertical light canyon."
+    ],
+    "clueTexts": [
+      "Vertical light canyon",
+      "Harbor ferry trails",
+      "Subtropical humidity"
+    ]
+  },
+  {
+    "id": "aad-13",
+    "imagePath": "/assets/photos/aad-13.svg",
+    "title": "Night signal 13",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Glass tower reflections."
+    ],
+    "clueTexts": [
+      "Glass tower reflections",
+      "Desert edge heat",
+      "Gulf coast calm"
+    ]
+  },
+  {
+    "id": "aad-14",
+    "imagePath": "/assets/photos/aad-14.svg",
+    "title": "Night signal 14",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Mountain bowl metropolis."
+    ],
+    "clueTexts": [
+      "Mountain bowl metropolis",
+      "River-side LED paths",
+      "Continental season snap"
+    ]
+  },
+  {
+    "id": "aad-15",
+    "imagePath": "/assets/photos/aad-15.svg",
+    "title": "Night signal 15",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: High-altitude basin glow."
+    ],
+    "clueTexts": [
+      "High-altitude basin glow",
+      "Volcanic silhouette ring",
+      "Thin cool air"
+    ]
+  },
+  {
+    "id": "aad-16",
+    "imagePath": "/assets/photos/aad-16.svg",
+    "title": "Night signal 16",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Archipelago dark water."
+    ],
+    "clueTexts": [
+      "Archipelago dark water",
+      "Warm window islands",
+      "Baltic summer dusk"
+    ]
+  },
+  {
+    "id": "aad-17",
+    "imagePath": "/assets/photos/aad-17.svg",
+    "title": "Night signal 17",
+    "hintTexts": [
+      "Hemisphere: Southern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: High plateau cool night."
+    ],
+    "clueTexts": [
+      "High plateau cool night",
+      "Savanna edge city",
+      "Equatorial altitude"
+    ]
+  },
+  {
+    "id": "aad-18",
+    "imagePath": "/assets/photos/aad-18.svg",
+    "title": "Night signal 18",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Long twilight linger."
+    ],
+    "clueTexts": [
+      "Long twilight linger",
+      "Snow-capped backdrop",
+      "Subarctic quiet"
+    ]
+  },
+  {
+    "id": "aad-19",
+    "imagePath": "/assets/photos/aad-19.svg",
+    "title": "Night signal 19",
+    "hintTexts": [
+      "Hemisphere: Southern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Windy harbor crescent."
+    ],
+    "clueTexts": [
+      "Windy harbor crescent",
+      "Southern capital glow",
+      "Cook Strait air"
+    ]
+  },
+  {
+    "id": "aad-20",
+    "imagePath": "/assets/photos/aad-20.svg",
+    "title": "Night signal 20",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: Pacific trade winds."
+    ],
+    "clueTexts": [
+      "Pacific trade winds",
+      "Volcanic ridge dark",
+      "Tropical ocean night"
+    ]
+  },
+  {
+    "id": "aad-21",
+    "imagePath": "/assets/photos/aad-21.svg",
+    "title": "Night signal 21",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Fjord inlet mirror."
+    ],
+    "clueTexts": [
+      "Fjord inlet mirror",
+      "Forest ridge backdrop",
+      "High-latitude blue hour"
+    ]
+  },
+  {
+    "id": "aad-22",
+    "imagePath": "/assets/photos/aad-22.svg",
+    "title": "Night signal 22",
+    "hintTexts": [
+      "Hemisphere: Southern half of the globe.",
+      "Climate band: Tropical/subtropical feel.",
+      "Environment: Coastal garua mist."
+    ],
+    "clueTexts": [
+      "Coastal garua mist",
+      "Pacific cliff drop",
+      "Desert city paradox"
+    ]
+  },
+  {
+    "id": "aad-23",
+    "imagePath": "/assets/photos/aad-23.svg",
+    "title": "Night signal 23",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Strait bridge necklaces."
+    ],
+    "clueTexts": [
+      "Strait bridge necklaces",
+      "Continental crossroads",
+      "Sea of Marmara breeze"
+    ]
+  },
+  {
+    "id": "aad-24",
+    "imagePath": "/assets/photos/aad-24.svg",
+    "title": "Night signal 24",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: High-latitude feel.",
+      "Environment: Rain-slick reflections."
+    ],
+    "clueTexts": [
+      "Rain-slick reflections",
+      "Mountain fjord backdrop",
+      "Pacific northwest cool"
+    ]
+  },
+  {
+    "id": "aad-25",
+    "imagePath": "/assets/photos/aad-25.svg",
+    "title": "Night signal 25",
+    "hintTexts": [
+      "Hemisphere: Northern half of the globe.",
+      "Climate band: Mid-latitude feel.",
+      "Environment: Medina warm lantern tone."
+    ],
+    "clueTexts": [
+      "Medina warm lantern tone",
+      "Atlas foothill air",
+      "Desert-adjacent night"
+    ]
+  }
+]

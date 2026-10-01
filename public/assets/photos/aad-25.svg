@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Demo night scene for Marrakech">
+  <defs>
+    <linearGradient id="sky-marrakech" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(168, 45%, 8%)"/>
+      <stop offset="100%" stop-color="hsl(168, 35%, 18%)"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky-marrakech)"/>
+  <circle cx="620" cy="90" r="40" fill="hsl(168, 30%, 75%)" opacity="0.85"/>
+  <rect y="320" width="800" height="180" fill="hsl(168, 25%, 12%)"/>
+  <rect x="40" y="240" width="36" height="80" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="46" y="252" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="60" y="268" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="102" y="205" width="36" height="115" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="108" y="217" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="122" y="233" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="164" y="170" width="36" height="150" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="170" y="182" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="184" y="198" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="226" y="135" width="36" height="185" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="232" y="147" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="246" y="163" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="288" y="100" width="36" height="220" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="294" y="112" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="308" y="128" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="350" y="240" width="36" height="80" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="356" y="252" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="370" y="268" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="412" y="205" width="36" height="115" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="418" y="217" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="432" y="233" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="474" y="170" width="36" height="150" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="480" y="182" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="494" y="198" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="536" y="135" width="36" height="185" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="542" y="147" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="556" y="163" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="598" y="100" width="36" height="220" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="604" y="112" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="618" y="128" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="660" y="240" width="36" height="80" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="666" y="252" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="680" y="268" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="722" y="205" width="36" height="115" fill="hsl(168, 20%, 22%)" rx="2"/>
+    <rect x="728" y="217" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
+    <rect x="742" y="233" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/>
+  <text x="24" y="480" fill="hsl(168, 15%, 55%)" font-family="system-ui,sans-serif" font-size="14">Demo fixture — not a photograph</text>
+</svg>

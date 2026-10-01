@@ -1,0 +1,152 @@
+{
+  "aad-01": {
+    "lat": 35.6762,
+    "lng": 139.6503,
+    "city": "Tokyo",
+    "country": "Japan"
+  },
+  "aad-02": {
+    "lat": 40.7128,
+    "lng": -74.006,
+    "city": "New York",
+    "country": "United States"
+  },
+  "aad-03": {
+    "lat": 48.8566,
+    "lng": 2.3522,
+    "city": "Paris",
+    "country": "France"
+  },
+  "aad-04": {
+    "lat": -33.8688,
+    "lng": 151.2093,
+    "city": "Sydney",
+    "country": "Australia"
+  },
+  "aad-05": {
+    "lat": 30.0444,
+    "lng": 31.2357,
+    "city": "Cairo",
+    "country": "Egypt"
+  },
+  "aad-06": {
+    "lat": 64.1466,
+    "lng": -21.9426,
+    "city": "Reykjavik",
+    "country": "Iceland"
+  },
+  "aad-07": {
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "city": "Singapore",
+    "country": "Singapore"
+  },
+  "aad-08": {
+    "lat": -33.9249,
+    "lng": 18.4241,
+    "city": "Cape Town",
+    "country": "South Africa"
+  },
+  "aad-09": {
+    "lat": 19.076,
+    "lng": 72.8777,
+    "city": "Mumbai",
+    "country": "India"
+  },
+  "aad-10": {
+    "lat": -34.6037,
+    "lng": -58.3816,
+    "city": "Buenos Aires",
+    "country": "Argentina"
+  },
+  "aad-11": {
+    "lat": 51.5074,
+    "lng": -0.1278,
+    "city": "London",
+    "country": "United Kingdom"
+  },
+  "aad-12": {
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "city": "Hong Kong",
+    "country": "China"
+  },
+  "aad-13": {
+    "lat": 25.2048,
+    "lng": 55.2708,
+    "city": "Dubai",
+    "country": "United Arab Emirates"
+  },
+  "aad-14": {
+    "lat": 37.5665,
+    "lng": 126.978,
+    "city": "Seoul",
+    "country": "South Korea"
+  },
+  "aad-15": {
+    "lat": 19.4326,
+    "lng": -99.1332,
+    "city": "Mexico City",
+    "country": "Mexico"
+  },
+  "aad-16": {
+    "lat": 59.3293,
+    "lng": 18.0686,
+    "city": "Stockholm",
+    "country": "Sweden"
+  },
+  "aad-17": {
+    "lat": -1.2921,
+    "lng": 36.8219,
+    "city": "Nairobi",
+    "country": "Kenya"
+  },
+  "aad-18": {
+    "lat": 61.2181,
+    "lng": -149.9003,
+    "city": "Anchorage",
+    "country": "United States"
+  },
+  "aad-19": {
+    "lat": -41.2865,
+    "lng": 174.7762,
+    "city": "Wellington",
+    "country": "New Zealand"
+  },
+  "aad-20": {
+    "lat": 21.3069,
+    "lng": -157.8583,
+    "city": "Honolulu",
+    "country": "United States"
+  },
+  "aad-21": {
+    "lat": 59.9139,
+    "lng": 10.7522,
+    "city": "Oslo",
+    "country": "Norway"
+  },
+  "aad-22": {
+    "lat": -12.0464,
+    "lng": -77.0428,
+    "city": "Lima",
+    "country": "Peru"
+  },
+  "aad-23": {
+    "lat": 41.0082,
+    "lng": 28.9784,
+    "city": "Istanbul",
+    "country": "Turkey"
+  },
+  "aad-24": {
+    "lat": 49.2827,
+    "lng": -123.1207,
+    "city": "Vancouver",
+    "country": "Canada"
+  },
+  "aad-25": {
+    "lat": 31.6295,
+    "lng": -7.9811,
+    "city": "Marrakech",
+    "country": "Morocco"
+  }
+}
