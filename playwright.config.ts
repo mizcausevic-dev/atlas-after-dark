@@ -9,9 +9,9 @@ export default defineConfig({
   },
   webServer: {
     command:
-      'npx cross-env VITE_OFFLINE=true VITE_BASE=/atlas-after-dark/ npm run build && npx vite preview --host 127.0.0.1 --port 4173',
+      'npx cross-env VITE_OFFLINE=true VITE_BASE=/atlas-after-dark/ npm run build && npx vite preview --host 127.0.0.1 --port 4173 --base /atlas-after-dark/',
     url: 'http://127.0.0.1:4173/atlas-after-dark/',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
 })

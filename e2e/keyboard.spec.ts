@@ -30,7 +30,7 @@ test('Enter on Reveal hint 1 reveals hint without map intercepting', async ({ pa
   await hintBtn.focus()
   await page.keyboard.press('Enter')
   await expect(page.getByText(/Hemisphere:/)).toBeVisible()
-  await expect(hintBtn).toBeDisabled()
+  await expect(page.getByRole('button', { name: /Hint 1 revealed/i })).toBeDisabled()
 })
 
 test('Arrow keys nudge pin only when map is focused', async ({ page }) => {

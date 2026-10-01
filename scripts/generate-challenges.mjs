@@ -57,7 +57,7 @@ function svgForChallenge(challengeId, hue) {
 </svg>`
 }
 
-const challenges = cities.map(([slug, city, country, lat, lng, c1, c2, c3], i) => {
+const challenges = cities.map(([_slug, city, country, lat, lng, c1, c2, c3], i) => {
   const id = `aad-${String(i + 1).padStart(2, '0')}`
   const hue = (i * 37) % 360
   const file = `${id}.svg`

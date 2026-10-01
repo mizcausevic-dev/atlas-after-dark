@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Demo night scene for Mumbai">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Demo night scene">
   <defs>
-    <linearGradient id="sky-mumbai" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="sky-aad-09" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="hsl(296, 45%, 8%)"/>
       <stop offset="100%" stop-color="hsl(296, 35%, 18%)"/>
     </linearGradient>
   </defs>
-  <rect width="800" height="500" fill="url(#sky-mumbai)"/>
+  <rect width="800" height="500" fill="url(#sky-aad-09)"/>
   <circle cx="620" cy="90" r="40" fill="hsl(296, 30%, 75%)" opacity="0.85"/>
   <rect y="320" width="800" height="180" fill="hsl(296, 25%, 12%)"/>
   <rect x="40" y="240" width="36" height="80" fill="hsl(296, 20%, 22%)" rx="2"/>
