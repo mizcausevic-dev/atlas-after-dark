@@ -91,6 +91,32 @@ test('screenshots at 375px title, play, result', async ({ page }, testInfo) => {
   })
 })
 
+test('scroll resets on start; map center not covered by photo strip', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 })
+  await page.goto('/')
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+  const before = await page.evaluate(() => window.scrollY)
+  expect(before).toBeGreaterThan(0)
+  await page.getByRole('button', { name: /Start tonight's case/i }).click()
+  await expect(page.locator('.play-grid')).toBeVisible({ timeout: 15_000 })
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBe(0)
+  const mapHit = await page.evaluate(() => {
+    const map = document.querySelector('.play-map .leaflet-container')
+    if (!map) return { ok: false, reason: 'no map' }
+    const r = map.getBoundingClientRect()
+    const cx = r.left + r.width / 2
+    const cy = r.top + r.height / 2
+    const el = document.elementFromPoint(cx, cy)
+    if (!el) return { ok: false, reason: 'no element at center' }
+    return { ok: map.contains(el), tag: el.tagName, cls: el.className }
+  })
+  expect(mapHit.ok, mapHit.reason ?? mapHit.cls).toBe(true)
+})
+
 test('no horizontal overflow at 320px on title and play', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/')

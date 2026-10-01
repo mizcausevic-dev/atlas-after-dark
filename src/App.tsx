@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import 'leaflet/dist/leaflet.css'
 import './App.css'
 import { MapBoard } from './components/MapBoard'
 import { useCoarsePointer } from './hooks/useCoarsePointer'
+import { useMinWidth768 } from './hooks/useMinWidth768'
 import { useGameSession } from './hooks/useGameSession'
 import type { DifficultyMode } from '../shared/types'
 import { formatDistance } from '../shared/haversine'
@@ -95,10 +96,18 @@ function ResultBody({
 function App() {
   const game = useGameSession()
   const coarsePointer = useCoarsePointer()
+  const isDesktopLayout = useMinWidth768()
   const [photoExpanded, setPhotoExpanded] = useState(false)
   const highContrast = game.settings.highContrast
   const reduceMotion = game.settings.reducedMotion
   const playing = game.phase === 'playing'
+
+  useLayoutEffect(() => {
+    const behavior = reduceMotion ? 'instant' : 'smooth'
+    window.scrollTo({ top: 0, left: 0, behavior })
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [game.phase, reduceMotion])
 
   return (
     <div
@@ -258,7 +267,10 @@ function App() {
                   ))}
                 </ul>
               </div>
-              <div className="submit-row submit-row--desktop">
+              <div
+                className="submit-row submit-row--desktop"
+                hidden={!isDesktopLayout}
+              >
                 <button
                   type="button"
                   className="primary"
@@ -299,7 +311,12 @@ function App() {
               </button>
             </div>
           )}
-          <div className="mobile-lock-bar" role="region" aria-label="Submit guess">
+          <div
+            className="mobile-lock-bar"
+            role="region"
+            aria-label="Submit guess"
+            hidden={isDesktopLayout}
+          >
             <button
               type="button"
               className="primary primary--lock"

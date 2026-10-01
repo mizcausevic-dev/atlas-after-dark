@@ -365,12 +365,18 @@ body {
 }
 
 @media (max-width: 767px) {
+  .app.is-playing {
+    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+  }
+
   .photo-panel {
     position: sticky;
     top: 0;
-    z-index: 20;
+    z-index: 1100;
     padding: 0.5rem 0.75rem;
     margin: -0.25rem 0 0;
+    background: var(--bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
   }
 
   .photo-strip-trigger .evidence-photo {
@@ -390,15 +396,19 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 30;
+    z-index: 1100;
     padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
-    background: linear-gradient(
-      180deg,
-      rgba(11, 12, 16, 0) 0%,
-      rgba(11, 12, 16, 0.92) 35%,
-      var(--bg) 100%
-    );
+    background: var(--bg);
     border-top: 1px solid rgba(102, 252, 241, 0.2);
+    box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.35);
+  }
+
+  .mobile-lock-bar[hidden] {
+    display: none !important;
+  }
+
+  .submit-row--desktop[hidden] {
+    display: none !important;
   }
 
   .primary--lock {
