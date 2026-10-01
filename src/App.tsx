@@ -110,7 +110,9 @@ function App() {
           <p className="meta">
             Streak {game.progress.streak} · Best daily{' '}
             {game.progress.bestByMode.daily ?? '—'} ·{' '}
-            {game.offline ? 'Offline fixture mode' : 'API-backed scoring'}
+            {game.offline
+              ? 'Offline solo demo (GitHub Pages)'
+              : 'Server session scoring'}
           </p>
           <button
             type="button"
@@ -135,16 +137,18 @@ function App() {
             <div className="hints">
               <h3>Optional hints (−650 pts each)</h3>
               <ul>
-                {game.challenge.hintTexts.map((text, i) => (
-                  <li key={text}>
+                {Array.from({ length: game.hintSlotCount }, (_, i) => (
+                  <li key={`hint-${i}`}>
                     <button
                       type="button"
-                      disabled={game.revealedHints[i]}
-                      onClick={() => game.revealHint(i)}
+                      disabled={game.revealedHints[i] || game.loading}
+                      onClick={() => void game.revealHint(i)}
                     >
                       {game.revealedHints[i] ? `Hint ${i + 1} revealed` : `Reveal hint ${i + 1}`}
                     </button>
-                    {game.revealedHints[i] && <p>{text}</p>}
+                    {game.revealedHints[i] && game.hintTexts[i] && (
+                      <p>{game.hintTexts[i]}</p>
+                    )}
                   </li>
                 ))}
               </ul>

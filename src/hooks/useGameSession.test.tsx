@@ -5,6 +5,7 @@ import fixture from '../data/challenges.fixture.json'
 
 vi.mock('../lib/api', () => ({
   isOfflineClient: vi.fn(() => true),
+  revealHint: vi.fn(),
   fetchDaily: vi.fn(async (mode: string, date: string) => ({
     date,
     mode,

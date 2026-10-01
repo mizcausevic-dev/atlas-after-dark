@@ -13,7 +13,11 @@ export default defineConfig({
   plugins: [react(), atlasApiPlugin()],
   test: {
     environment: 'jsdom',
-    include: ['shared/**/*.test.ts', 'src/**/*.test.{ts,tsx}'],
+    include: [
+      'shared/**/*.test.ts',
+      'src/**/*.test.{ts,tsx}',
+      'server/**/*.test.ts',
+    ],
     setupFiles: ['./src/test/setup.ts'],
   },
 })

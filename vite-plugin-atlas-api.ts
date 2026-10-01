@@ -1,6 +1,23 @@
 import type { Plugin } from 'vite'
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { handleApi } from './server/api.ts'
+import {
+  createDefaultApiDeps,
+  getClientIp,
+  handleApi,
+  type ApiDeps,
+} from './server/api.ts'
+
+let deps: ApiDeps | null = null
+
+function getDeps(): ApiDeps {
+  if (!deps) {
+    const secret =
+      process.env.AAD_SESSION_SECRET ??
+      'dev-insecure-session-secret-change-me'
+    deps = createDefaultApiDeps(secret)
+  }
+  return deps
+}
 
 function listener(
   req: IncomingMessage,
@@ -13,7 +30,7 @@ function listener(
     return
   }
   const pathname = url.split('?')[0] ?? url
-  void handleApi(req, res, pathname)
+  void handleApi(req, res, pathname, getClientIp(req), getDeps())
 }
 
 export function atlasApiPlugin(): Plugin {

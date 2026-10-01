@@ -1,10 +1,17 @@
 # Security notes (Atlas After Dark)
 
-## GitHub Pages preview
+## GitHub Pages preview (offline solo demo)
 
-The Pages build sets `VITE_OFFLINE=true`. Answer coordinates ship in the static JS bundle (`challenges.offline-answers.json`). That is intentional for a solo demo preview, not for competitive leaderboards.
+The Pages build sets `VITE_OFFLINE=true`. Answer coordinates ship in the static JS bundle (`challenges.offline-answers.json`). That is intentional for solo play only, not for competitive leaderboards.
 
-The API build (`VITE_OFFLINE` unset) does **not** bundle answer coordinates; scoring stays server-side.
+## Server mode (competitive-oriented)
+
+- Set `AAD_SESSION_SECRET` (see `.env.example`). Without it, `/api/*` returns 503 except health checks are still rate-limited.
+- `GET /api/daily` returns a signed session token; coordinates and clue text are withheld until `POST /api/guess`.
+- Hints are served only via `POST /api/hint` and are bound to the token.
+- Session state lives in an **in-memory store with TTL** (`server/sessionStore.ts`). It does **not** sync across multiple Node instances. Use a single instance or add shared storage before horizontal scale.
+- Each token accepts one scored guess (409 on replay).
+- Mode, elapsed time, and hints used are derived server-side from the token and session record, not from the client body.
 
 ## Repository
 

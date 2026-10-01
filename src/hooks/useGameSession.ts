@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { DifficultyMode, GuessResponse } from '../../shared/types'
+import type {
+  ChallengeDailyPublic,
+  ChallengePublic,
+  DifficultyMode,
+  GuessResponse,
+} from '../../shared/types'
 import { utcDateString } from '../../shared/dailySeed'
-import { fetchDaily, isOfflineClient, submitGuess } from '../lib/api'
-import type { ChallengePublic } from '../../shared/types'
+import { fetchDaily, isOfflineClient, revealHint, submitGuess } from '../lib/api'
 import {
   loadProgress,
   loadSettings,
@@ -14,18 +18,34 @@ import {
 
 export type GamePhase = 'title' | 'playing' | 'result'
 
+const HINT_SLOTS = 3
+
+function isOfflineChallenge(
+  c: ChallengePublic | ChallengeDailyPublic,
+): c is ChallengePublic {
+  return 'hintTexts' in c
+}
+
 export function useGameSession() {
   const offline = isOfflineClient()
   const [phase, setPhase] = useState<GamePhase>('title')
   const [settings, setSettings] = useState<UserSettings>(() => loadSettings())
   const [progress, setProgress] = useState(() => loadProgress())
-  const [challenge, setChallenge] = useState<ChallengePublic | null>(null)
+  const [challenge, setChallenge] = useState<
+    ChallengePublic | ChallengeDailyPublic | null
+  >(null)
+  const [sessionToken, setSessionToken] = useState<string | null>(null)
   const [dailyMeta, setDailyMeta] = useState<{
     date: string
     mode: DifficultyMode
   } | null>(null)
   const [guess, setGuess] = useState<{ lat: number; lng: number } | null>(null)
   const [hintsUsed, setHintsUsed] = useState(0)
+  const [hintTexts, setHintTexts] = useState<(string | null)[]>([
+    null,
+    null,
+    null,
+  ])
   const [revealedHints, setRevealedHints] = useState<boolean[]>([
     false,
     false,
@@ -57,10 +77,16 @@ export function useGameSession() {
     try {
       const payload = await fetchDaily(playMode, date)
       setChallenge(payload.challenge)
+      setSessionToken(payload.token ?? null)
       setDailyMeta({ date, mode: playMode })
       setGuess(null)
       setHintsUsed(0)
       setRevealedHints([false, false, false])
+      if (isOfflineChallenge(payload.challenge)) {
+        setHintTexts([...payload.challenge.hintTexts])
+      } else {
+        setHintTexts([null, null, null])
+      }
       setResult(null)
       startMs.current = Date.now()
       setElapsedMs(0)
@@ -72,18 +98,46 @@ export function useGameSession() {
     }
   }, [settings.mode])
 
-  const revealHint = useCallback(
-    (index: number) => {
+  const revealHintAt = useCallback(
+    async (index: number) => {
       if (!challenge || phase !== 'playing') return
       if (revealedHints[index]) return
-      setRevealedHints((prev) => {
-        const next = [...prev]
-        next[index] = true
-        return next
-      })
-      setHintsUsed((h) => Math.min(3, h + 1))
+      setError(null)
+      if (offline) {
+        if (!isOfflineChallenge(challenge)) return
+        setRevealedHints((prev) => {
+          const next = [...prev]
+          next[index] = true
+          return next
+        })
+        setHintsUsed((h) => Math.min(HINT_SLOTS, h + 1))
+        return
+      }
+      if (!sessionToken) {
+        setError('Missing session token')
+        return
+      }
+      setLoading(true)
+      try {
+        const res = await revealHint(sessionToken, index)
+        setHintTexts((prev) => {
+          const next = [...prev]
+          next[index] = res.text
+          return next
+        })
+        setRevealedHints((prev) => {
+          const next = [...prev]
+          next[index] = true
+          return next
+        })
+        setHintsUsed(res.hintsUsed)
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Could not reveal hint')
+      } finally {
+        setLoading(false)
+      }
     },
-    [challenge, phase, revealedHints],
+    [challenge, phase, revealedHints, offline, sessionToken],
   )
 
   const confirmGuess = useCallback(async () => {
@@ -91,14 +145,20 @@ export function useGameSession() {
     setLoading(true)
     setError(null)
     try {
-      const response = await submitGuess({
-        challengeId: challenge.id,
-        lat: guess.lat,
-        lng: guess.lng,
-        hintsUsed,
-        elapsedMs,
-        mode: dailyMeta.mode,
-      })
+      const response = offline
+        ? await submitGuess({
+            challengeId: challenge.id,
+            lat: guess.lat,
+            lng: guess.lng,
+            hintsUsed,
+            elapsedMs,
+            mode: dailyMeta.mode,
+          })
+        : await submitGuess({
+            token: sessionToken ?? '',
+            lat: guess.lat,
+            lng: guess.lng,
+          })
       setResult(response)
       setPhase('result')
       const nextProgress = recordScore(
@@ -114,11 +174,21 @@ export function useGameSession() {
     } finally {
       setLoading(false)
     }
-  }, [challenge, guess, dailyMeta, hintsUsed, elapsedMs, progress])
+  }, [
+    challenge,
+    guess,
+    dailyMeta,
+    hintsUsed,
+    elapsedMs,
+    progress,
+    offline,
+    sessionToken,
+  ])
 
   const restart = useCallback(() => {
     setPhase('title')
     setChallenge(null)
+    setSessionToken(null)
     setResult(null)
     setGuess(null)
     setError(null)
@@ -141,8 +211,10 @@ export function useGameSession() {
     guess,
     setGuess,
     hintsUsed,
+    hintTexts,
+    hintSlotCount: HINT_SLOTS,
     revealedHints,
-    revealHint,
+    revealHint: revealHintAt,
     result,
     error,
     loading,

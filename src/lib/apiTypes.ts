@@ -1,8 +1,13 @@
-import type { ChallengePublic, DifficultyMode } from '../../shared/types.ts'
+import type {
+  ChallengeDailyPublic,
+  ChallengePublic,
+  DifficultyMode,
+} from '../../shared/types.ts'
 
 export type DailyPayload = {
   date: string
   mode: DifficultyMode
   index: number
-  challenge: ChallengePublic
+  token?: string
+  challenge: ChallengePublic | ChallengeDailyPublic
 }

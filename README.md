@@ -49,7 +49,7 @@ See [docs/SECURITY-Cursor.md](./docs/SECURITY-Cursor.md).
 
 ## Deployment
 
-**Recommended (competitive-safe):** build client, run Node server so coordinates stay in `server/data/challenges.secret.json` only.
+**Server mode:** build client (`VITE_OFFLINE` unset), set `AAD_SESSION_SECRET`, run `npm run start`. Coordinates stay out of the JS bundle; scoring uses HMAC session tokens and a single-instance in-memory session store (see [docs/SECURITY-Cursor.md](./docs/SECURITY-Cursor.md)). One guess per token is enforced; there is not yet a global per-user daily cap beyond the token.
 
 ```bash
 npm run generate:content

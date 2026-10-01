@@ -8,6 +8,39 @@ export type ChallengePublic = {
   clueTexts: [string, string, string]
 }
 
+/** Server /api/daily challenge payload (no spoilers). */
+export type ChallengeDailyPublic = {
+  id: string
+  imagePath: string
+  title: string
+  hintCount: number
+}
+
+export type DailyStartResponse = {
+  date: string
+  mode: DifficultyMode
+  index: number
+  token: string
+  challenge: ChallengeDailyPublic
+}
+
+export type ServerGuessRequest = {
+  token: string
+  lat: number
+  lng: number
+}
+
+export type HintRequest = {
+  token: string
+  index: number
+}
+
+export type HintResponse = {
+  index: number
+  text: string
+  hintsUsed: number
+}
+
 export type ChallengeSecret = ChallengePublic & {
   city: string
   country: string
