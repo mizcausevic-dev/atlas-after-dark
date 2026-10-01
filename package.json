@@ -12,7 +12,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "generate:content": "tsx scripts/generate-challenges.mjs"
+    "generate:content": "tsx scripts/generate-challenges.mjs",
+    "photos:fetch": "node scripts/fetch-photos.mjs",
+    "photos:contact-sheet": "node scripts/generate-photo-contact-sheet.mjs",
+    "photos:apply": "node scripts/apply-photo-manifest.mjs",
+    "prebuild": "node scripts/validate-photo-manifest.mjs && node scripts/apply-photo-manifest.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
@@ -37,6 +41,7 @@
     "jsdom": "^29.1.1",
     "oxlint": "^1.81.0",
     "playwright": "^1.63.0",
+    "sharp": "^0.35.5",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.3"

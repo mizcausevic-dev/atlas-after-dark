@@ -9,6 +9,8 @@ import { computeScore } from '../../shared/scoring'
 
 /** Offline solo path when API unreachable — uses public fixture only; scoring needs target coords from bundled answer map (demo trust-on-client). */
 import answerMap from '../data/challenges.offline-answers.json'
+import photoAttribution from '../data/photo-attribution.json'
+import type { PhotoCredit } from '../../shared/types'
 
 type AnswerEntry = { lat: number; lng: number; city: string; country: string }
 
@@ -51,5 +53,8 @@ export function scoreOfflineGuess(payload: GuessRequest): GuessResponse {
     score: breakdown.finalScore,
     scoreBreakdown: breakdown,
     clueTexts: pub?.clueTexts ?? ['—', '—', '—'],
+    photoCredit:
+      (photoAttribution as Record<string, PhotoCredit>)[payload.challengeId] ??
+      null,
   }
 }

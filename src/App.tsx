@@ -10,6 +10,19 @@ import { formatDistance } from '../shared/haversine'
 import { MAX_SCORE } from '../shared/scoring'
 import { assetUrl } from './lib/assetUrl'
 
+function evidenceImageProps(imagePath: string) {
+  const src = assetUrl(imagePath)
+  if (!imagePath.endsWith('.webp')) {
+    return { src }
+  }
+  const narrow = assetUrl(imagePath.replace('.webp', '-600.webp'))
+  return {
+    src,
+    srcSet: `${narrow} 600w, ${src} 1200w`,
+    sizes: '(max-width: 768px) 100vw, 480px',
+  }
+}
+
 const MODES: { id: DifficultyMode; label: string; detail: string }[] = [
   {
     id: 'rookie',
@@ -90,6 +103,27 @@ function ResultBody({
           showInstructions={false}
         />
       </div>
+      {game.result.photoCredit && (
+        <p className="photo-credit">
+          Photo: {game.result.photoCredit.author}.{' '}
+          <a
+            href={game.result.photoCredit.licenseUrl}
+            rel="license noopener noreferrer"
+            target="_blank"
+          >
+            {game.result.photoCredit.license}
+          </a>
+          .{' '}
+          <a
+            href={game.result.photoCredit.commonsPageUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            via Wikimedia Commons
+          </a>
+          {game.result.photoCredit.modified ? ' (modified)' : ''}
+        </p>
+      )}
     </>
   )
 }
@@ -228,7 +262,7 @@ function App() {
                 onClick={() => setPhotoExpanded((v) => !v)}
               >
                 <img
-                  src={assetUrl(game.challenge.imagePath)}
+                  {...evidenceImageProps(game.challenge.imagePath)}
                   alt={`Night evidence still for ${game.challenge.title}`}
                   className="evidence-photo"
                 />
@@ -300,8 +334,9 @@ function App() {
               }}
             >
               <img
-                src={assetUrl(game.challenge.imagePath)}
+                {...evidenceImageProps(game.challenge.imagePath)}
                 alt={`Night evidence still for ${game.challenge.title}`}
+                className="photo-lightbox-img"
               />
               <button
                 type="button"
@@ -365,8 +400,8 @@ function App() {
 
       <footer className="footer">
         <p>
-          Map © OpenStreetMap contributors. Demo night art is original SVG (not
-          real photography).
+          Map © OpenStreetMap contributors. Night photos from Wikimedia Commons
+          where licensed; remaining scenes use original SVG fixtures.
         </p>
         <nav className="footer-docs" aria-label="Project documentation">
           <a href="https://github.com/mizcausevic-dev/atlas-after-dark/blob/main/docs/ASSET_RIGHTS-Cursor.md">

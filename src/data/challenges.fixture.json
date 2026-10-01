@@ -1,7 +1,7 @@
 [
   {
     "id": "aad-01",
-    "imagePath": "/assets/photos/aad-01.svg",
+    "imagePath": "/assets/photos/aad-01.webp",
     "title": "Night signal 1",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -16,7 +16,7 @@
   },
   {
     "id": "aad-02",
-    "imagePath": "/assets/photos/aad-02.svg",
+    "imagePath": "/assets/photos/aad-02.webp",
     "title": "Night signal 2",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -31,7 +31,7 @@
   },
   {
     "id": "aad-03",
-    "imagePath": "/assets/photos/aad-03.svg",
+    "imagePath": "/assets/photos/aad-03.webp",
     "title": "Night signal 3",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -46,7 +46,7 @@
   },
   {
     "id": "aad-04",
-    "imagePath": "/assets/photos/aad-04.svg",
+    "imagePath": "/assets/photos/aad-04.webp",
     "title": "Night signal 4",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
@@ -61,7 +61,7 @@
   },
   {
     "id": "aad-05",
-    "imagePath": "/assets/photos/aad-05.svg",
+    "imagePath": "/assets/photos/aad-05.webp",
     "title": "Night signal 5",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -76,7 +76,7 @@
   },
   {
     "id": "aad-06",
-    "imagePath": "/assets/photos/aad-06.svg",
+    "imagePath": "/assets/photos/aad-06.webp",
     "title": "Night signal 6",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -91,7 +91,7 @@
   },
   {
     "id": "aad-07",
-    "imagePath": "/assets/photos/aad-07.svg",
+    "imagePath": "/assets/photos/aad-07.webp",
     "title": "Night signal 7",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -106,7 +106,7 @@
   },
   {
     "id": "aad-08",
-    "imagePath": "/assets/photos/aad-08.svg",
+    "imagePath": "/assets/photos/aad-08.webp",
     "title": "Night signal 8",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
@@ -121,7 +121,7 @@
   },
   {
     "id": "aad-09",
-    "imagePath": "/assets/photos/aad-09.svg",
+    "imagePath": "/assets/photos/aad-09.webp",
     "title": "Night signal 9",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -136,7 +136,7 @@
   },
   {
     "id": "aad-10",
-    "imagePath": "/assets/photos/aad-10.svg",
+    "imagePath": "/assets/photos/aad-10.webp",
     "title": "Night signal 10",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
@@ -151,7 +151,7 @@
   },
   {
     "id": "aad-11",
-    "imagePath": "/assets/photos/aad-11.svg",
+    "imagePath": "/assets/photos/aad-11.webp",
     "title": "Night signal 11",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -166,7 +166,7 @@
   },
   {
     "id": "aad-12",
-    "imagePath": "/assets/photos/aad-12.svg",
+    "imagePath": "/assets/photos/aad-12.webp",
     "title": "Night signal 12",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -196,7 +196,7 @@
   },
   {
     "id": "aad-14",
-    "imagePath": "/assets/photos/aad-14.svg",
+    "imagePath": "/assets/photos/aad-14.webp",
     "title": "Night signal 14",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -211,7 +211,7 @@
   },
   {
     "id": "aad-15",
-    "imagePath": "/assets/photos/aad-15.svg",
+    "imagePath": "/assets/photos/aad-15.webp",
     "title": "Night signal 15",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -226,7 +226,7 @@
   },
   {
     "id": "aad-16",
-    "imagePath": "/assets/photos/aad-16.svg",
+    "imagePath": "/assets/photos/aad-16.webp",
     "title": "Night signal 16",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -256,7 +256,7 @@
   },
   {
     "id": "aad-18",
-    "imagePath": "/assets/photos/aad-18.svg",
+    "imagePath": "/assets/photos/aad-18.webp",
     "title": "Night signal 18",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -286,7 +286,7 @@
   },
   {
     "id": "aad-20",
-    "imagePath": "/assets/photos/aad-20.svg",
+    "imagePath": "/assets/photos/aad-20.webp",
     "title": "Night signal 20",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -331,7 +331,7 @@
   },
   {
     "id": "aad-23",
-    "imagePath": "/assets/photos/aad-23.svg",
+    "imagePath": "/assets/photos/aad-23.webp",
     "title": "Night signal 23",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -346,7 +346,7 @@
   },
   {
     "id": "aad-24",
-    "imagePath": "/assets/photos/aad-24.svg",
+    "imagePath": "/assets/photos/aad-24.webp",
     "title": "Night signal 24",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
@@ -361,7 +361,7 @@
   },
   {
     "id": "aad-25",
-    "imagePath": "/assets/photos/aad-25.svg",
+    "imagePath": "/assets/photos/aad-25.webp",
     "title": "Night signal 25",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",

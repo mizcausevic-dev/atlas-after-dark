@@ -11,6 +11,7 @@ import type {
   DifficultyMode,
   GuessResponse,
 } from '../shared/types.ts'
+import { photoCreditForChallenge } from './photoCredits.ts'
 import { resolveDailyDateParam } from './datePolicy.ts'
 import { TokenBucketRateLimit } from './rateLimit.ts'
 import {
@@ -200,6 +201,7 @@ function scoreFromSession(
     clueTexts: target.clueTexts,
     practice,
     scored: !practice,
+    photoCredit: photoCreditForChallenge(target.id),
   }
 }
 

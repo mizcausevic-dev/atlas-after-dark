@@ -350,9 +350,7 @@ export function MapBoard({
       {showInstructions && (
         <p className="map-hint">
           {coarsePointer ? (
-            <>
-              Tap the map to drop a pin. Drag to pan, pinch to zoom.
-            </>
+            <>Tap the map to drop a pin. Drag to pan, pinch to zoom.</>
           ) : (
             <>
               Focus the map, then use arrow keys to move the pin (Shift = faster).

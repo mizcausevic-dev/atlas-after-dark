@@ -61,6 +61,15 @@ export type GuessRequest = {
   mode: DifficultyMode
 }
 
+export type PhotoCredit = {
+  author: string
+  license: string
+  licenseUrl: string
+  commonsPageUrl: string
+  modified: boolean
+  modifications?: string
+}
+
 export type GuessResponse = {
   city: string
   country: string
@@ -80,4 +89,6 @@ export type GuessResponse = {
   practice?: boolean
   /** Server session: false when practice or replay; offline always omitted (treated as scored). */
   scored?: boolean
+  /** Wikimedia credit; only after guess (server or offline bundle). */
+  photoCredit?: PhotoCredit | null
 }

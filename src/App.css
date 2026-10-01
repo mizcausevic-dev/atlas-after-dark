@@ -295,6 +295,17 @@ body {
   height: 280px;
 }
 
+.photo-credit {
+  font-size: 0.78rem;
+  opacity: 0.88;
+  margin-top: 0.75rem;
+  line-height: 1.45;
+}
+
+.photo-credit a {
+  color: var(--accent);
+}
+
 .footer {
   margin-top: 1.5rem;
   font-size: 0.8rem;

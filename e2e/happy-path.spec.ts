@@ -4,7 +4,7 @@ test('daily case happy path: start, pin, score, clues', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { name: 'Atlas After Dark' })).toBeVisible()
   await page.getByRole('button', { name: /Start tonight's case/i }).click()
-  const evidence = page.getByRole('img', { name: /Night evidence/i })
+  const evidence = page.getByRole('img', { name: /Night street scene/i })
   await expect(evidence).toBeVisible()
   const src = await evidence.getAttribute('src')
   expect(src).toContain('/atlas-after-dark/assets/photos/')
