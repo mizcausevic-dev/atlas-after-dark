@@ -13,8 +13,12 @@ const REQUIRED_PHOTO = [
   'licenseUrl',
   'modifications',
   'retrievedAt',
+  'photoLat',
+  'photoLng',
+  'distanceKm',
 ]
 
+const MAX_DISTANCE_KM = 25
 const IDS = Array.from({ length: 25 }, (_, i) => `aad-${String(i + 1).padStart(2, '0')}`)
 
 function fail(msg) {
@@ -45,9 +49,16 @@ for (const id of IDS) {
     fail(`${id}: status must be "photo" or "svg"`)
   }
   for (const key of REQUIRED_PHOTO) {
-    if (typeof entry[key] !== 'string' || !entry[key].trim()) {
+    if (entry[key] === undefined || entry[key] === null || entry[key] === '') {
       fail(`${id}: missing or empty "${key}"`)
     }
+  }
+  const dist = Number(entry.distanceKm)
+  if (!Number.isFinite(dist)) {
+    fail(`${id}: distanceKm must be a number`)
+  }
+  if (dist > MAX_DISTANCE_KM) {
+    fail(`${id}: distanceKm ${dist} exceeds ${MAX_DISTANCE_KM} km gate`)
   }
   const webp = join(root, 'public', 'assets', 'photos', `${id}.webp`)
   if (!existsSync(webp)) {
@@ -55,4 +66,4 @@ for (const id of IDS) {
   }
 }
 
-console.log(`photo-manifest: OK (${IDS.length} entries)`)
+console.log(`photo-manifest: OK (${IDS.length} entries, location gate ≤${MAX_DISTANCE_KM} km)`)

@@ -14,9 +14,13 @@ const cards = Object.entries(manifest)
       entry.status === 'photo'
         ? `../public/assets/photos/${id}.webp`
         : `../public/assets/photos/${id}.svg`
+    const dist =
+      entry.status === 'photo' && entry.distanceKm != null
+        ? `<br/>Location gate: <strong>${entry.distanceKm} km</strong> from challenge`
+        : ''
     const caption =
       entry.status === 'photo'
-        ? `<strong>${id}</strong><br/>${entry.author}<br/><a href="${entry.licenseUrl}">${entry.license}</a><br/><a href="${entry.commonsPageUrl}">Commons</a><br/><em>${entry.modifications}</em>`
+        ? `<strong>${id}</strong>${dist}<br/>${entry.author}<br/><a href="${entry.licenseUrl}">${entry.license}</a><br/><a href="${entry.commonsPageUrl}">Commons</a><br/><em>${entry.modifications}</em>`
         : `<strong>${id}</strong><br/>SVG fallback<br/>${entry.keepSvgReason ?? ''}`
     return `<figure><img src="${img}" alt="${id}" loading="lazy"/><figcaption>${caption}</figcaption></figure>`
   })
