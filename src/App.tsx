@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import 'leaflet/dist/leaflet.css'
 import './App.css'
 import { MapBoard } from './components/MapBoard'
+import { useCoarsePointer } from './hooks/useCoarsePointer'
 import { useGameSession } from './hooks/useGameSession'
 import type { DifficultyMode } from '../shared/types'
 import { formatDistance } from '../shared/haversine'
@@ -83,6 +85,7 @@ function ResultBody({
           disabled
           reducedMotion={game.settings.reducedMotion}
           fitGuessAndTarget
+          showInstructions={false}
         />
       </div>
     </>
@@ -91,12 +94,15 @@ function ResultBody({
 
 function App() {
   const game = useGameSession()
+  const coarsePointer = useCoarsePointer()
+  const [photoExpanded, setPhotoExpanded] = useState(false)
   const highContrast = game.settings.highContrast
   const reduceMotion = game.settings.reducedMotion
+  const playing = game.phase === 'playing'
 
   return (
     <div
-      className={`app ${highContrast ? 'high-contrast' : ''} ${reduceMotion ? 'reduce-motion' : ''}`}
+      className={`app ${highContrast ? 'high-contrast' : ''} ${reduceMotion ? 'reduce-motion' : ''} ${playing ? 'is-playing' : ''}`}
     >
       <header className="topbar">
         <div>
@@ -198,59 +204,112 @@ function App() {
       )}
 
       {game.phase === 'playing' && game.challenge && (
-        <div className="play-grid">
-          <section className="panel photo-panel" aria-label="Night photo evidence">
-            <img
-              src={assetUrl(game.challenge.imagePath)}
-              alt={`Night evidence still for ${game.challenge.title}`}
-              className="evidence-photo"
-            />
-            <p className="caption">{game.challenge.title}</p>
-            <div className="hints">
-              <h3>Optional hints (−650 pts each)</h3>
-              <ul>
-                {Array.from({ length: game.hintSlotCount }, (_, i) => (
-                  <li key={`hint-${i}`}>
-                    <button
-                      type="button"
-                      disabled={game.revealedHints[i] || game.loading}
-                      onClick={() => void game.revealHint(i)}
-                    >
-                      {game.revealedHints[i] ? `Hint ${i + 1} revealed` : `Reveal hint ${i + 1}`}
-                    </button>
-                    {game.revealedHints[i] && game.hintTexts[i] && (
-                      <p>{game.hintTexts[i]}</p>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="submit-row">
+        <>
+          <div className="play-grid">
+            <section
+              className="panel photo-panel"
+              aria-label="Night photo evidence"
+            >
               <button
                 type="button"
-                className="primary"
-                disabled={!game.guess || game.loading}
-                onClick={() => void game.confirmGuess()}
+                className="photo-strip-trigger"
+                aria-expanded={photoExpanded}
+                aria-label="Tap to expand night photo evidence"
+                onClick={() => setPhotoExpanded((v) => !v)}
               >
-                {game.loading ? 'Calculating…' : 'Lock in guess'}
+                <img
+                  src={assetUrl(game.challenge.imagePath)}
+                  alt={`Night evidence still for ${game.challenge.title}`}
+                  className="evidence-photo"
+                />
               </button>
-              {!game.guess && (
-                <p className="empty" role="status">
-                  Place a pin on the map to continue.
-                </p>
-              )}
+              <p className="caption">{game.challenge.title}</p>
+            </section>
+            <section className="panel map-panel play-map">
+              <MapBoard
+                guess={game.guess}
+                target={null}
+                onGuess={game.setGuess}
+                disabled={game.loading}
+                reducedMotion={game.settings.reducedMotion}
+                coarsePointer={coarsePointer}
+                showInstructions
+              />
+            </section>
+            <section className="panel hints-panel" aria-label="Optional hints">
+              <div className="hints">
+                <h3>Optional hints (−650 pts each)</h3>
+                <ul>
+                  {Array.from({ length: game.hintSlotCount }, (_, i) => (
+                    <li key={`hint-${i}`}>
+                      <button
+                        type="button"
+                        disabled={game.revealedHints[i] || game.loading}
+                        onClick={() => void game.revealHint(i)}
+                      >
+                        {game.revealedHints[i]
+                          ? `Hint ${i + 1} revealed`
+                          : `Reveal hint ${i + 1}`}
+                      </button>
+                      {game.revealedHints[i] && game.hintTexts[i] && (
+                        <p>{game.hintTexts[i]}</p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="submit-row submit-row--desktop">
+                <button
+                  type="button"
+                  className="primary"
+                  disabled={!game.guess || game.loading}
+                  onClick={() => void game.confirmGuess()}
+                >
+                  {game.loading ? 'Calculating…' : 'Lock in guess'}
+                </button>
+                {!game.guess && (
+                  <p className="empty" role="status">
+                    Place a pin on the map to continue.
+                  </p>
+                )}
+              </div>
+            </section>
+          </div>
+          {photoExpanded && (
+            <div
+              className="photo-lightbox"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Expanded evidence photo"
+              onClick={() => setPhotoExpanded(false)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') setPhotoExpanded(false)
+              }}
+            >
+              <img
+                src={assetUrl(game.challenge.imagePath)}
+                alt={`Night evidence still for ${game.challenge.title}`}
+              />
+              <button
+                type="button"
+                className="primary photo-lightbox-close"
+                onClick={() => setPhotoExpanded(false)}
+              >
+                Close
+              </button>
             </div>
-          </section>
-          <section className="panel map-panel">
-            <MapBoard
-              guess={game.guess}
-              target={null}
-              onGuess={game.setGuess}
-              disabled={game.loading}
-              reducedMotion={game.settings.reducedMotion}
-            />
-          </section>
-        </div>
+          )}
+          <div className="mobile-lock-bar" role="region" aria-label="Submit guess">
+            <button
+              type="button"
+              className="primary primary--lock"
+              disabled={!game.guess || game.loading}
+              onClick={() => void game.confirmGuess()}
+            >
+              {game.loading ? 'Calculating…' : 'Lock in guess'}
+            </button>
+          </div>
+        </>
       )}
 
       {game.phase === 'daily-locked' && game.result && game.challenge && (

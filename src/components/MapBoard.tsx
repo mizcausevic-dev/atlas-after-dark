@@ -8,6 +8,10 @@ import {
   useMapEvents,
 } from 'react-leaflet'
 import L from 'leaflet'
+import { GestureHandling } from 'leaflet-gesture-handling'
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
+
+L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling)
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -30,6 +34,9 @@ type MapBoardProps = {
   disabled: boolean
   reducedMotion: boolean
   fitGuessAndTarget?: boolean
+  /** When false, no instruction line under the map (result view). */
+  showInstructions?: boolean
+  coarsePointer?: boolean
 }
 
 function ClickLayer({
@@ -48,6 +55,17 @@ function ClickLayer({
   return null
 }
 
+function GestureHandlingLayer() {
+  const map = useMap()
+  useEffect(() => {
+    const withGesture = map as L.Map & {
+      gestureHandling?: { enable: () => void }
+    }
+    withGesture.gestureHandling?.enable()
+  }, [map])
+  return null
+}
+
 function FitGuessTarget({
   guess,
   target,
@@ -60,18 +78,50 @@ function FitGuessTarget({
   enabled: boolean
 }) {
   const map = useMap()
-  useEffect(() => {
+
+  const refit = useCallback(() => {
     if (!enabled || !guess || !target) return
+    map.invalidateSize()
     const bounds = L.latLngBounds(
       [guess.lat, guess.lng],
       [target.lat, target.lng],
-    )
+    ).pad(0.12)
     map.fitBounds(bounds, {
-      padding: [48, 48],
+      padding: [32, 32],
       animate: !reducedMotion,
-      maxZoom: 8,
+      maxZoom: 6,
     })
   }, [enabled, guess, target, map, reducedMotion])
+
+  useEffect(() => {
+    refit()
+    const t1 = window.setTimeout(refit, 100)
+    const t2 = window.setTimeout(refit, 350)
+    return () => {
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+    }
+  }, [refit])
+
+  useEffect(() => {
+    window.addEventListener('resize', refit)
+    window.addEventListener('orientationchange', refit)
+    return () => {
+      window.removeEventListener('resize', refit)
+      window.removeEventListener('orientationchange', refit)
+    }
+  }, [refit])
+
+  return null
+}
+
+function MapInvalidateOnMount() {
+  const map = useMap()
+  useEffect(() => {
+    map.invalidateSize()
+    const t = window.setTimeout(() => map.invalidateSize(), 50)
+    return () => window.clearTimeout(t)
+  }, [map])
   return null
 }
 
@@ -82,6 +132,8 @@ export function MapBoard({
   disabled,
   reducedMotion,
   fitGuessAndTarget = false,
+  showInstructions = true,
+  coarsePointer = false,
 }: MapBoardProps) {
   const nudge = useCallback(
     (dLat: number, dLng: number) => {
@@ -96,7 +148,7 @@ export function MapBoard({
   )
 
   const onMapShellKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (disabled) return
+    if (disabled || coarsePointer) return
     const step = e.shiftKey ? 5 : 1
     switch (e.key) {
       case 'ArrowUp':
@@ -128,29 +180,34 @@ export function MapBoard({
         ]
       : null
 
+  const mapOptions = {
+    center: [20, 0] as [number, number],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 12,
+    className: 'map-frame',
+    scrollWheelZoom: true,
+    zoomAnimation: !reducedMotion,
+    fadeAnimation: !reducedMotion,
+    markerZoomAnimation: !reducedMotion,
+    gestureHandling: true,
+  }
+
   return (
     <div
       className="map-shell"
       role="application"
       aria-label="World map pin placement"
-      tabIndex={disabled ? -1 : 0}
+      tabIndex={disabled || coarsePointer ? -1 : 0}
       onKeyDown={onMapShellKeyDown}
     >
-      <MapContainer
-        center={[20, 0]}
-        zoom={2}
-        minZoom={2}
-        maxZoom={12}
-        className="map-frame"
-        scrollWheelZoom
-        zoomAnimation={!reducedMotion}
-        fadeAnimation={!reducedMotion}
-        markerZoomAnimation={!reducedMotion}
-      >
+      <MapContainer {...mapOptions}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <MapInvalidateOnMount />
+        <GestureHandlingLayer />
         <ClickLayer onGuess={onGuess} disabled={disabled} />
         <FitGuessTarget
           guess={guess}
@@ -190,10 +247,20 @@ export function MapBoard({
           />
         )}
       </MapContainer>
-      <p className="map-hint">
-        Focus the map, then use arrow keys to move the pin (Shift = faster). Use the
-        Lock in guess button to submit.
-      </p>
+      {showInstructions && (
+        <p className="map-hint">
+          {coarsePointer ? (
+            <>
+              Tap the map to drop a pin. Drag to pan, pinch to zoom.
+            </>
+          ) : (
+            <>
+              Focus the map, then use arrow keys to move the pin (Shift = faster).
+              Use the Lock in guess button to submit.
+            </>
+          )}
+        </p>
+      )}
     </div>
   )
 }
