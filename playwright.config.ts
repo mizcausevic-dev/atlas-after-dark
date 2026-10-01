@@ -11,7 +11,7 @@ export default defineConfig({
     {
       name: 'desktop-chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: /(?:mobile-touch|result-map-fit)\.spec\.ts/,
+      testIgnore: /(?:mobile-touch|result-map-fit|photo-strip-visual)\.spec\.ts/,
     },
     {
       name: 'mobile-iphone-se',
@@ -22,6 +22,16 @@ export default defineConfig({
       name: 'mobile-pixel-7',
       testMatch: /(?:mobile-touch|result-map-fit)\.spec\.ts/,
       use: { ...devices['Pixel 7'], hasTouch: true },
+    },
+    {
+      name: 'photo-visual-desktop',
+      testMatch: /photo-strip-visual\.spec\.ts/,
+      use: { viewport: { width: 1280, height: 800 } },
+    },
+    {
+      name: 'photo-visual-mobile',
+      testMatch: /photo-strip-visual\.spec\.ts/,
+      use: { ...devices['Pixel 7'], hasTouch: true, viewport: { width: 375, height: 667 } },
     },
   ],
   webServer: {

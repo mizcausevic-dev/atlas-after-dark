@@ -43,6 +43,8 @@ for (const row of fixture) {
   const entry = manifest[row.id]
   if (entry?.status === 'photo') {
     row.imagePath = `/assets/photos/${row.id}.webp`
+  } else if (entry?.status === 'svg') {
+    row.imagePath = `/assets/photos/${row.id}.svg`
   }
 }
 

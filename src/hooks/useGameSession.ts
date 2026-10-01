@@ -17,6 +17,7 @@ import {
   saveSettings,
   type UserSettings,
 } from '../lib/storage'
+import fixture from '../data/challenges.fixture.json'
 
 export type GamePhase = 'title' | 'playing' | 'result' | 'daily-locked'
 
@@ -84,6 +85,18 @@ function e2eResultBootstrap(): {
   }
 }
 
+function e2ePlayBootstrap(): {
+  phase: GamePhase
+  challenge: ChallengePublic
+} | null {
+  if (!isOfflineClient()) return null
+  const id = new URLSearchParams(window.location.search).get('e2ePlay')
+  if (!id) return null
+  const challenge = (fixture as ChallengePublic[]).find((c) => c.id === id)
+  if (!challenge) return null
+  return { phase: 'playing', challenge }
+}
+
 function isOfflineChallenge(
   c: ChallengePublic | ChallengeDailyPublic,
 ): c is ChallengePublic {
@@ -92,7 +105,9 @@ function isOfflineChallenge(
 
 export function useGameSession() {
   const offline = isOfflineClient()
-  const e2eBoot = e2eResultBootstrap()
+  const e2eResult = e2eResultBootstrap()
+  const e2ePlay = e2ePlayBootstrap()
+  const e2eBoot = e2eResult ?? e2ePlay
   const [phase, setPhase] = useState<GamePhase>(() => e2eBoot?.phase ?? 'title')
   const [settings, setSettings] = useState<UserSettings>(() => loadSettings())
   const [progress, setProgress] = useState(() => loadProgress())
@@ -117,7 +132,7 @@ export function useGameSession() {
     false,
   ])
   const [result, setResult] = useState<GuessResponse | null>(
-    () => e2eBoot?.result ?? null,
+    () => e2eResult?.result ?? null,
   )
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)

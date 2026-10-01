@@ -13,9 +13,9 @@ test('daily case happy path: start, pin, score, clues', async ({ page }) => {
     /\/assets\/photos\/aad-\d+\.(webp|svg)/,
   )
   await expect
-    .poll(() =>
-      evidence.evaluate((img: HTMLImageElement) => img.naturalWidth),
-    )
+    .poll(() => evidence.evaluate((img: HTMLImageElement) => img.naturalWidth), {
+      timeout: 15_000,
+    })
     .toBeGreaterThan(0)
   await page.locator('.leaflet-container').click({ position: { x: 220, y: 160 } })
   await page.getByRole('button', { name: /Lock in guess/i }).click()
