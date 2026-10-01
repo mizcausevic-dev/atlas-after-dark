@@ -4,6 +4,7 @@ import { MapBoard } from './components/MapBoard'
 import { useGameSession } from './hooks/useGameSession'
 import type { DifficultyMode } from '../shared/types'
 import { formatDistance } from '../shared/haversine'
+import { assetUrl } from './lib/assetUrl'
 
 const MODES: { id: DifficultyMode; label: string; detail: string }[] = [
   {
@@ -129,7 +130,7 @@ function App() {
         <div className="play-grid">
           <section className="panel photo-panel" aria-label="Night photo evidence">
             <img
-              src={game.challenge.imagePath}
+              src={assetUrl(game.challenge.imagePath)}
               alt={`Night evidence still for ${game.challenge.title}`}
               className="evidence-photo"
             />

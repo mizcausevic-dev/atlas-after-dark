@@ -35,15 +35,15 @@ const cities = [
   ['marrakech', 'Marrakech', 'Morocco', 31.6295, -7.9811, 'Medina warm lantern tone', 'Atlas foothill air', 'Desert-adjacent night'],
 ]
 
-function svgForCity(id, city, hue) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Demo night scene for ${city}">
+function svgForChallenge(challengeId, hue) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Demo night scene">
   <defs>
-    <linearGradient id="sky-${id}" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="sky-${challengeId}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="hsl(${hue}, 45%, 8%)"/>
       <stop offset="100%" stop-color="hsl(${hue}, 35%, 18%)"/>
     </linearGradient>
   </defs>
-  <rect width="800" height="500" fill="url(#sky-${id})"/>
+  <rect width="800" height="500" fill="url(#sky-${challengeId})"/>
   <circle cx="620" cy="90" r="40" fill="hsl(${hue}, 30%, 75%)" opacity="0.85"/>
   <rect y="320" width="800" height="180" fill="hsl(${hue}, 25%, 12%)"/>
   ${Array.from({ length: 12 }, (_, i) => {
@@ -61,7 +61,7 @@ const challenges = cities.map(([slug, city, country, lat, lng, c1, c2, c3], i) =
   const id = `aad-${String(i + 1).padStart(2, '0')}`
   const hue = (i * 37) % 360
   const file = `${id}.svg`
-  writeFileSync(join(photoDir, file), svgForCity(slug, city, hue), 'utf8')
+  writeFileSync(join(photoDir, file), svgForChallenge(id, hue), 'utf8')
   return {
     id,
     imagePath: `/assets/photos/${file}`,

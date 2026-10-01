@@ -159,6 +159,16 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  border-radius: 10px;
+}
+
+.map-shell:focus {
+  outline: none;
+}
+
+.map-shell:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .map-frame {

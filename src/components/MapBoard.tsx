@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import {
   MapContainer,
   TileLayer,
@@ -53,8 +53,6 @@ export function MapBoard({
   disabled,
   reducedMotion,
 }: MapBoardProps) {
-  const [focusHint, setFocusHint] = useState(false)
-
   const nudge = useCallback(
     (dLat: number, dLng: number) => {
       if (disabled) return
@@ -67,41 +65,30 @@ export function MapBoard({
     [disabled, guess, onGuess],
   )
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (disabled) return
-      const step = e.shiftKey ? 5 : 1
-      switch (e.key) {
-        case 'ArrowUp':
-          e.preventDefault()
-          nudge(step, 0)
-          break
-        case 'ArrowDown':
-          e.preventDefault()
-          nudge(-step, 0)
-          break
-        case 'ArrowLeft':
-          e.preventDefault()
-          nudge(0, -step)
-          break
-        case 'ArrowRight':
-          e.preventDefault()
-          nudge(0, step)
-          break
-        case 'Enter':
-        case ' ':
-          if (guess) {
-            e.preventDefault()
-            setFocusHint(true)
-          }
-          break
-        default:
-          break
-      }
+  const onMapShellKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (disabled) return
+    const step = e.shiftKey ? 5 : 1
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault()
+        nudge(step, 0)
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        nudge(-step, 0)
+        break
+      case 'ArrowLeft':
+        e.preventDefault()
+        nudge(0, -step)
+        break
+      case 'ArrowRight':
+        e.preventDefault()
+        nudge(0, step)
+        break
+      default:
+        break
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [disabled, guess, nudge])
+  }
 
   const line =
     guess && target
@@ -112,7 +99,13 @@ export function MapBoard({
       : null
 
   return (
-    <div className="map-shell" role="application" aria-label="World map pin placement">
+    <div
+      className="map-shell"
+      role="application"
+      aria-label="World map pin placement"
+      tabIndex={disabled ? -1 : 0}
+      onKeyDown={onMapShellKeyDown}
+    >
       <MapContainer
         center={[20, 0]}
         zoom={2}
@@ -146,14 +139,9 @@ export function MapBoard({
         )}
       </MapContainer>
       <p className="map-hint">
-        Click or tap to place a pin. Arrow keys nudge (Shift = faster). Enter confirms
-        from the control panel.
+        Focus the map, then use arrow keys to move the pin (Shift = faster). Use the
+        Lock in guess button to submit.
       </p>
-      {focusHint && (
-        <p className="sr-live" role="status">
-          Pin ready to submit
-        </p>
-      )}
     </div>
   )
 }
