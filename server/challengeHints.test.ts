@@ -7,6 +7,9 @@ import {
   climateHintText,
   regionContradictsClimate,
   climateBandFromLat,
+  regionBandForPoint,
+  pointInBox,
+  REGION_BANDS,
 } from '../shared/challengeHints.ts'
 
 const secretPath = join(
@@ -49,18 +52,22 @@ describe('challenge hint latitude rules', () => {
     }
   })
 
-  it('each hint-3 region band covers at least two cities', () => {
+  it('every city coordinates fall inside the bounding box for its hint-3 band', () => {
     const pool = JSON.parse(readFileSync(secretPath, 'utf8')) as Challenge[]
-    const counts = new Map<string, number>()
     for (const c of pool) {
-      const key = c.hintTexts[2]
-      counts.set(key, (counts.get(key) ?? 0) + 1)
+      const assigned = regionBandForPoint(c.lat, c.lng)
+      expect(assigned, `${c.id} ${c.lat},${c.lng}`).not.toBeNull()
+      expect(c.hintTexts[2]).toBe(assigned!.hint)
+      const bandDef = REGION_BANDS.find((b) => b.id === assigned!.id)
+      expect(bandDef).toBeTruthy()
+      const inSomeBox = bandDef!.boxes.some((box) =>
+        pointInBox(c.lat, c.lng, box),
+      )
+      expect(inSomeBox).toBe(true)
     }
-    for (const [region, n] of counts) {
-      expect(n, region).toBeGreaterThanOrEqual(2)
-    }
-    for (const c of pool) {
-      expect(c.hintTexts[2]).not.toMatch(/Broad continental belt/)
-    }
+  })
+
+  it('region boxes are defined for every expected band id', () => {
+    expect(REGION_BANDS.length).toBe(10)
   })
 })

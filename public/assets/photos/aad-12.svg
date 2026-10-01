@@ -6,7 +6,7 @@
     </linearGradient>
   </defs>
   <rect width="800" height="500" fill="url(#sky-aad-12)"/>
-  <circle cx="320.7" cy="48.0" r="34" fill="hsl(32, 28%, 78%)" opacity="0.82"/>
+  <circle cx="400.0" cy="80.0" r="34" fill="hsl(32, 28%, 78%)" opacity="0.82"/>
   <path d="M0 340 L120 220 L240 300 L360 180 L480 260 L600 200 L720 280 L800 240 L800 500 L0 500 Z" fill="hsl(32, 18%, 10%)" opacity="0.85"/>
   <path d="M0 360 L200 260 L400 320 L560 240 L800 300 L800 500 L0 500 Z" fill="hsl(32, 15%, 14%)" opacity="0.6"/>
   <path d="M0 350 Q200 310 400 340 T800 330 L800 500 L0 500 Z" fill="hsl(32, 40%, 12%)" opacity="0.75"/><rect y="300" width="800" height="120" fill="hsl(32, 40%, 12%)" opacity="0.9"/>

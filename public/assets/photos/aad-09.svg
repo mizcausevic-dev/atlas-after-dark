@@ -6,7 +6,7 @@
     </linearGradient>
   </defs>
   <rect width="800" height="500" fill="url(#sky-aad-09)"/>
-  <circle cx="238.0" cy="64.3" r="34" fill="hsl(28, 28%, 78%)" opacity="0.82"/>
+  <circle cx="400.0" cy="80.0" r="34" fill="hsl(28, 28%, 78%)" opacity="0.82"/>
   <path d="M0 350 Q200 310 400 340 T800 330 L800 500 L0 500 Z" fill="hsl(28, 40%, 12%)" opacity="0.75"/><rect y="300" width="800" height="120" fill="hsl(28, 40%, 12%)" opacity="0.9"/>
   <ellipse cx="80" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="175" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="270" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="365" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="460" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="555" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="650" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/><ellipse cx="745" cy="360" rx="40" ry="6" fill="hsl(28, 25%, 22%)" opacity="0.35"/>
   <rect y="320" width="800" height="180" fill="hsl(28, 25%, 11%)"/>

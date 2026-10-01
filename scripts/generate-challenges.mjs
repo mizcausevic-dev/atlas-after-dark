@@ -83,17 +83,98 @@ function waterLayer(hue, water, groundY) {
   ${Array.from({ length: 8 }, (_, i) => `<ellipse cx="${80 + i * 95}" cy="${y + h / 2}" rx="40" ry="6" fill="hsl(${hue}, 25%, 22%)" opacity="0.35"/>`).join('')}`
 }
 
+/** @typedef {{ x: number, y: number, w: number, h: number }} BRect */
+
 /**
- * @returns {{ svg: string, moon: { cx: number, cy: number, r: number } }}
+ * @param {BRect[]} rects
+ * @param {number} x0
+ * @param {number} x1
  */
-function buildings(hue, skyline, groundY, light) {
+function minRoofYInSpan(rects, x0, x1) {
+  let minY = Infinity
+  for (const r of rects) {
+    const left = r.x
+    const right = r.x + r.w
+    if (right <= x0 || left >= x1) continue
+    minY = Math.min(minY, r.y)
+  }
+  return minY
+}
+
+/**
+ * @param {BRect[]} rects
+ * @param {number} groundY
+ * @param {number} moonR
+ */
+function placeMoonInWidestGap(rects, groundY, moonR) {
+  const margin = 3
+  const sorted = [...rects].sort((a, b) => a.x - b.x)
+  /** @type {Array<{ left: number, right: number }>} */
+  const gaps = [{ left: 0, right: 800 }]
+  for (const r of sorted) {
+    const next = []
+    for (const g of gaps) {
+      if (r.x + r.w <= g.left || r.x >= g.right) {
+        next.push(g)
+        continue
+      }
+      if (r.x > g.left) next.push({ left: g.left, right: r.x })
+      if (r.x + r.w < g.right) next.push({ left: r.x + r.w, right: g.right })
+    }
+    gaps.length = 0
+    gaps.push(...next)
+  }
+
+  let best = { width: 0, cx: 400, cy: 80 }
+  for (const g of gaps) {
+    const width = g.right - g.left
+    if (width < moonR * 2 + margin * 2) continue
+    const cx = (g.left + g.right) / 2
+    const spanL = cx - moonR
+    const spanR = cx + moonR
+    const roofY = minRoofYInSpan(rects, spanL, spanR)
+    const maxCy =
+      roofY === Infinity ? groundY - moonR - margin : roofY - moonR - margin
+    const cy = Math.max(moonR + margin, Math.min(maxCy, 120))
+    if (width > best.width) {
+      best = { width, cx, cy }
+    }
+  }
+
+  return { cx: best.cx, cy: best.cy, r: moonR }
+}
+
+/**
+ * @param {{ cx: number, cy: number, r: number }} moon
+ * @param {BRect[]} rects
+ */
+function assertMoonClearOfBuildings(moon, rects, challengeId) {
+  const pad = 1
+  for (const r of rects) {
+    const closestX = Math.max(r.x, Math.min(moon.cx, r.x + r.w))
+    const closestY = Math.max(r.y, Math.min(moon.cy, r.y + r.h))
+    const dx = moon.cx - closestX
+    const dy = moon.cy - closestY
+    const distSq = dx * dx + dy * dy
+    const limit = (moon.r + pad) * (moon.r + pad)
+    if (distSq < limit) {
+      throw new Error(
+        `Moon intersects building in ${challengeId} (dist²=${distSq}, limit=${limit})`,
+      )
+    }
+  }
+}
+
+/**
+ * @returns {{ svg: string, moon: { cx: number, cy: number, r: number }, rects: BRect[] }}
+ */
+function buildings(hue, skyline, groundY, light, challengeId) {
   const counts = { dense: 16, vertical: 14, spread: 11, low: 9 }
   const n = counts[skyline] ?? 12
   const gap = 800 / n
   const parts = []
-  let tallestTop = groundY
-  let tallestCenterX = 400
-  let tallestH = 0
+  /** @type {BRect[]} */
+  const rects = []
 
   for (let i = 0; i < n; i++) {
     const x = 24 + i * gap
@@ -111,11 +192,7 @@ function buildings(hue, skyline, groundY, light) {
       h += 60
     }
     const y = groundY - h
-    if (h > tallestH) {
-      tallestH = h
-      tallestTop = y
-      tallestCenterX = x + w / 2
-    }
+    rects.push({ x, y, w, h })
     parts.push(
       `<rect x="${x.toFixed(0)}" y="${y}" width="${w}" height="${h}" fill="hsl(${hue}, 22%, ${18 + (i % 3) * 2}%)" rx="2"/>`,
     )
@@ -129,12 +206,13 @@ function buildings(hue, skyline, groundY, light) {
   }
 
   const moonR = 34
-  const moonCy = Math.max(48, tallestTop - moonR * 0.55)
-  const moonCx = Math.min(720, Math.max(80, tallestCenterX))
+  const moon = placeMoonInWidestGap(rects, groundY, moonR)
+  assertMoonClearOfBuildings(moon, rects, challengeId)
 
   return {
     svg: parts.join('\n  '),
-    moon: { cx: moonCx, cy: moonCy, r: moonR },
+    moon,
+    rects,
   }
 }
 
@@ -146,7 +224,13 @@ function aurora(hue) {
 function svgForChallenge(challengeId, hue, lat, scene) {
   const groundY = 320
   const { topL, botL } = skyStops(hue, lat)
-  const { svg: bldg, moon } = buildings(hue, scene.skyline, groundY, scene.light)
+  const { svg: bldg, moon } = buildings(
+    hue,
+    scene.skyline,
+    groundY,
+    scene.light,
+    challengeId,
+  )
   let layers = ''
   if (scene.mountains) {
     layers += `\n  ${mountainLayer(hue)}`

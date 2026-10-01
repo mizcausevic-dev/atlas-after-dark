@@ -6,6 +6,106 @@ export type ClimateBand =
 
 export type LightTemp = 'warm' | 'cool' | 'mixed'
 
+export type LatLngBox = {
+  minLat: number
+  maxLat: number
+  minLng: number
+  maxLng: number
+}
+
+export type RegionBand = {
+  /** Stable id for tests */
+  id: string
+  hint: string
+  boxes: LatLngBox[]
+}
+
+/** Order: first matching box wins (boxes are non-overlapping across bands). */
+export const REGION_BANDS: RegionBand[] = [
+  {
+    id: 'north-pacific-rim-americas',
+    hint: 'Regional context: North Pacific rim (Americas).',
+    boxes: [{ minLat: 48, maxLat: 62.5, minLng: -152, maxLng: -122 }],
+  },
+  {
+    id: 'east-asia-mid',
+    hint: 'Regional context: East Asia (mid-latitude).',
+    boxes: [{ minLat: 34.5, maxLat: 38.5, minLng: 126, maxLng: 140 }],
+  },
+  {
+    id: 'tropical-asia',
+    hint: 'Regional context: Tropical Asia.',
+    boxes: [{ minLat: 0, maxLat: 23, minLng: 72, maxLng: 115 }],
+  },
+  {
+    id: 'australia-nz',
+    hint: 'Regional context: Australia and New Zealand.',
+    boxes: [{ minLat: -42, maxLat: -33, minLng: 150, maxLng: 176 }],
+  },
+  {
+    id: 'sub-saharan-africa',
+    hint: 'Regional context: Sub-Saharan Africa.',
+    boxes: [
+      { minLat: -2.5, maxLat: 0.5, minLng: 35, maxLng: 38 },
+      { minLat: -35.5, maxLat: -33, minLng: 17, maxLng: 20 },
+    ],
+  },
+  {
+    id: 'north-africa-middle-east',
+    hint: 'Regional context: North Africa and Middle East.',
+    boxes: [{ minLat: 24, maxLat: 32.5, minLng: -10, maxLng: 56 }],
+  },
+  {
+    id: 'europe-mid',
+    hint: 'Regional context: Europe (mid-latitude).',
+    boxes: [{ minLat: 40.5, maxLat: 52, minLng: -2, maxLng: 29 }],
+  },
+  {
+    id: 'nordic-north-atlantic',
+    hint: 'Regional context: Nordic and North Atlantic.',
+    boxes: [{ minLat: 58.5, maxLat: 65, minLng: -22, maxLng: 19 }],
+  },
+  {
+    id: 'americas-atlantic',
+    hint: 'Regional context: Americas, Atlantic side.',
+    boxes: [
+      { minLat: 39.5, maxLat: 41.5, minLng: -75.5, maxLng: -73.5 },
+      { minLat: -35.5, maxLat: -34, minLng: -59, maxLng: -57.5 },
+    ],
+  },
+  {
+    id: 'tropical-pacific-basin',
+    hint: 'Regional context: Tropical Pacific basin.',
+    boxes: [{ minLat: -13, maxLat: 22, minLng: -160, maxLng: -77 }],
+  },
+]
+
+export function pointInBox(lat: number, lng: number, box: LatLngBox): boolean {
+  return (
+    lat >= box.minLat &&
+    lat <= box.maxLat &&
+    lng >= box.minLng &&
+    lng <= box.maxLng
+  )
+}
+
+export function regionBandForPoint(lat: number, lng: number): RegionBand | null {
+  for (const band of REGION_BANDS) {
+    for (const box of band.boxes) {
+      if (pointInBox(lat, lng, box)) return band
+    }
+  }
+  return null
+}
+
+export function regionHintText(lat: number, lng: number): string {
+  const band = regionBandForPoint(lat, lng)
+  if (!band) {
+    throw new Error(`No region band for (${lat}, ${lng})`)
+  }
+  return band.hint
+}
+
 export function climateBandFromLat(lat: number): ClimateBand {
   const absLat = Math.abs(lat)
   if (absLat < 23.5) return 'tropical'
@@ -25,58 +125,6 @@ export function climateHintText(lat: number): string {
           ? 'Mid-latitude'
           : 'High-latitude'
   return `Climate band: ${label} feel.`
-}
-
-export function regionHintText(lat: number, lng: number): string {
-  const absLat = Math.abs(lat)
-
-  if (lng >= -170 && lng <= -115 && lat >= 45) {
-    return 'Regional context: North Pacific rim (Americas).'
-  }
-
-  if (absLat >= 55 && lng >= -25 && lng <= 35) {
-    return 'Regional context: High-latitude North Atlantic Europe.'
-  }
-
-  if (
-    absLat >= 35 &&
-    absLat < 55 &&
-    ((lng >= 120 && lng <= 145) || (lng >= 160 && lng <= 180))
-  ) {
-    return 'Regional context: East Asia and Southwest Pacific (mid-latitude).'
-  }
-
-  if (lng >= -85 && lng <= -35 && absLat >= 30) {
-    return 'Regional context: Americas Atlantic coast (north and south).'
-  }
-
-  if (absLat >= 35 && absLat < 55 && lng >= -10 && lng <= 45) {
-    return 'Regional context: Europe (mid-latitude).'
-  }
-
-  if (lat >= 0 && absLat >= 20 && absLat < 35 && lng >= -12 && lng <= 60) {
-    return 'Regional context: North Africa and Middle East (subtropical).'
-  }
-
-  if (
-    absLat >= 23.5 &&
-    absLat < 40 &&
-    ((lng >= -65 && lng <= -45) ||
-      (lng >= 15 && lng <= 35) ||
-      (lng >= 145 && lng <= 155))
-  ) {
-    return 'Regional context: Southern subtropical coasts (Atlantic, Indian, and Pacific).'
-  }
-
-  if (absLat < 25 && lng >= 35 && lng <= 125) {
-    return 'Regional context: South and Southeast Asia (tropical).'
-  }
-
-  if (absLat < 25 && lng >= -170 && lng <= -70) {
-    return 'Regional context: Pacific Americas (tropical).'
-  }
-
-  return 'Regional context: Broad continental belt (check hemisphere and coast).'
 }
 
 export function regionContradictsClimate(

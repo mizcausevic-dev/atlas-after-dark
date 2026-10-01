@@ -6,7 +6,7 @@
     </linearGradient>
   </defs>
   <rect width="800" height="500" fill="url(#sky-aad-05)"/>
-  <circle cx="316.7" cy="190.3" r="34" fill="hsl(36, 28%, 78%)" opacity="0.82"/>
+  <circle cx="400.0" cy="80.0" r="34" fill="hsl(36, 28%, 78%)" opacity="0.82"/>
   <rect y="360" width="800" height="55" fill="hsl(36, 35%, 14%)" opacity="0.9"/>
   <ellipse cx="80" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="175" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="270" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="365" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="460" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="555" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="650" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/><ellipse cx="745" cy="387.5" rx="40" ry="6" fill="hsl(36, 25%, 22%)" opacity="0.35"/>
   <rect y="320" width="800" height="180" fill="hsl(36, 25%, 11%)"/>
