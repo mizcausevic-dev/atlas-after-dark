@@ -8,6 +8,10 @@ import {
   useMapEvents,
 } from 'react-leaflet'
 import L from 'leaflet'
+import {
+  computeResultMinZoom,
+  shiftGuessLngForDisplay,
+} from '../lib/mapFit'
 import { GestureHandling } from 'leaflet-gesture-handling'
 import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
 
@@ -37,6 +41,8 @@ type MapBoardProps = {
   /** When false, no instruction line under the map (result view). */
   showInstructions?: boolean
   coarsePointer?: boolean
+  /** Result screen: dynamic minZoom + dateline-aware fit (padding 24px). */
+  resultMapFit?: boolean
 }
 
 function ClickLayer({
@@ -115,6 +121,85 @@ function FitGuessTarget({
   return null
 }
 
+function ResultFitGuessTarget({
+  guess,
+  target,
+  reducedMotion,
+  enabled,
+}: {
+  guess: LatLng | null
+  target: LatLng | null
+  reducedMotion: boolean
+  enabled: boolean
+}) {
+  const map = useMap()
+
+  const refit = useCallback(() => {
+    if (!enabled || !guess || !target) return
+    map.invalidateSize()
+    const displayGuess = shiftGuessLngForDisplay(guess, target)
+    const bounds = L.latLngBounds(
+      [displayGuess.lat, displayGuess.lng],
+      [target.lat, target.lng],
+    )
+    const size = map.getSize()
+    let minZ = computeResultMinZoom(
+      size.x,
+      size.y,
+      bounds.getNorth(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getWest(),
+      24,
+    )
+    for (; minZ >= 0; minZ -= 1) {
+      map.setMinZoom(minZ)
+      map.fitBounds(bounds, {
+        padding: [24, 24],
+        animate: !reducedMotion,
+        maxZoom: 12,
+      })
+      const pad = 24
+      const inside = (lat: number, lng: number) => {
+        const p = map.latLngToContainerPoint([lat, lng])
+        return (
+          p.x >= pad &&
+          p.x <= size.x - pad &&
+          p.y >= pad &&
+          p.y <= size.y - pad
+        )
+      }
+      if (
+        inside(displayGuess.lat, displayGuess.lng) &&
+        inside(target.lat, target.lng)
+      ) {
+        break
+      }
+    }
+  }, [enabled, guess, target, map, reducedMotion])
+
+  useEffect(() => {
+    refit()
+    const t1 = window.setTimeout(refit, 100)
+    const t2 = window.setTimeout(refit, 350)
+    return () => {
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+    }
+  }, [refit])
+
+  useEffect(() => {
+    window.addEventListener('resize', refit)
+    window.addEventListener('orientationchange', refit)
+    return () => {
+      window.removeEventListener('resize', refit)
+      window.removeEventListener('orientationchange', refit)
+    }
+  }, [refit])
+
+  return null
+}
+
 function MapInvalidateOnMount() {
   const map = useMap()
   useEffect(() => {
@@ -134,6 +219,7 @@ export function MapBoard({
   fitGuessAndTarget = false,
   showInstructions = true,
   coarsePointer = false,
+  resultMapFit = false,
 }: MapBoardProps) {
   const nudge = useCallback(
     (dLat: number, dLng: number) => {
@@ -172,10 +258,15 @@ export function MapBoard({
     }
   }
 
+  const displayGuess =
+    guess && target && resultMapFit
+      ? shiftGuessLngForDisplay(guess, target)
+      : guess
+
   const line =
-    guess && target
+    displayGuess && target
       ? [
-          [guess.lat, guess.lng],
+          [displayGuess.lat, displayGuess.lng],
           [target.lat, target.lng],
         ]
       : null
@@ -183,7 +274,7 @@ export function MapBoard({
   const mapOptions = {
     center: [20, 0] as [number, number],
     zoom: 2,
-    minZoom: 2,
+    minZoom: resultMapFit ? 0 : 2,
     maxZoom: 12,
     className: 'map-frame',
     scrollWheelZoom: true,
@@ -209,15 +300,24 @@ export function MapBoard({
         <MapInvalidateOnMount />
         <GestureHandlingLayer />
         <ClickLayer onGuess={onGuess} disabled={disabled} />
-        <FitGuessTarget
-          guess={guess}
-          target={target}
-          reducedMotion={reducedMotion}
-          enabled={fitGuessAndTarget}
-        />
-        {guess && (
+        {resultMapFit ? (
+          <ResultFitGuessTarget
+            guess={guess}
+            target={target}
+            reducedMotion={reducedMotion}
+            enabled={fitGuessAndTarget}
+          />
+        ) : (
+          <FitGuessTarget
+            guess={guess}
+            target={target}
+            reducedMotion={reducedMotion}
+            enabled={fitGuessAndTarget}
+          />
+        )}
+        {displayGuess && (
           <Marker
-            position={[guess.lat, guess.lng]}
+            position={[displayGuess.lat, displayGuess.lng]}
             keyboard={false}
             title="Your guess"
           />

@@ -86,6 +86,7 @@ function ResultBody({
           disabled
           reducedMotion={game.settings.reducedMotion}
           fitGuessAndTarget
+          resultMapFit
           showInstructions={false}
         />
       </div>

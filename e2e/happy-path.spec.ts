@@ -8,8 +8,11 @@ test('daily case happy path: start, pin, score, clues', async ({ page }) => {
   await expect(evidence).toBeVisible()
   const src = await evidence.getAttribute('src')
   expect(src).toContain('/atlas-after-dark/assets/photos/')
-  const naturalWidth = await evidence.evaluate((img: HTMLImageElement) => img.naturalWidth)
-  expect(naturalWidth).toBeGreaterThan(0)
+  await expect
+    .poll(() =>
+      evidence.evaluate((img: HTMLImageElement) => img.naturalWidth),
+    )
+    .toBeGreaterThan(0)
   await page.locator('.leaflet-container').click({ position: { x: 220, y: 160 } })
   await page.getByRole('button', { name: /Lock in guess/i }).click()
   await expect(page.getByText(/Score \d+ \/ 6,300/)).toBeVisible({ timeout: 15_000 })

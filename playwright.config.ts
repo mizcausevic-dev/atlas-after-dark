@@ -11,16 +11,16 @@ export default defineConfig({
     {
       name: 'desktop-chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: /mobile-touch\.spec\.ts/,
+      testIgnore: /(?:mobile-touch|result-map-fit)\.spec\.ts/,
     },
     {
       name: 'mobile-iphone-se',
-      testMatch: /mobile-touch\.spec\.ts/,
+      testMatch: /(?:mobile-touch|result-map-fit)\.spec\.ts/,
       use: { ...devices['iPhone SE'], hasTouch: true },
     },
     {
       name: 'mobile-pixel-7',
-      testMatch: /mobile-touch\.spec\.ts/,
+      testMatch: /(?:mobile-touch|result-map-fit)\.spec\.ts/,
       use: { ...devices['Pixel 7'], hasTouch: true },
     },
   ],

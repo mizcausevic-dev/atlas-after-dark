@@ -22,6 +22,68 @@ export type GamePhase = 'title' | 'playing' | 'result' | 'daily-locked'
 
 const HINT_SLOTS = 3
 
+function e2eResultBootstrap(): {
+  phase: GamePhase
+  challenge: ChallengePublic
+  result: GuessResponse
+} | null {
+  if (!isOfflineClient()) return null
+  const key = new URLSearchParams(window.location.search).get('e2eResult')
+  if (!key) return null
+  const fixtures: Record<
+    string,
+    {
+      guess: { lat: number; lng: number }
+      target: { lat: number; lng: number }
+      city: string
+      country: string
+    }
+  > = {
+    far: {
+      guess: { lat: 20, lng: 10 },
+      target: { lat: 40.7128, lng: -74.006 },
+      city: 'New York',
+      country: 'United States',
+    },
+    dateline: {
+      guess: { lat: 20, lng: 150 },
+      target: { lat: 21.3069, lng: -157.8583 },
+      city: 'Honolulu',
+      country: 'United States',
+    },
+  }
+  const f = fixtures[key]
+  if (!f) return null
+  return {
+    phase: 'result',
+    challenge: {
+      id: 'e2e-result-map',
+      imagePath: '/challenges/aad-01.svg',
+      title: 'E2E result map',
+      hintTexts: ['h1', 'h2', 'h3'],
+      clueTexts: ['c1', 'c2', 'c3'],
+    },
+    result: {
+      city: f.city,
+      country: f.country,
+      guess: f.guess,
+      target: f.target,
+      distanceKm: 8000,
+      score: 1200,
+      scoreBreakdown: {
+        distanceScore: 1200,
+        timeBonus: 0,
+        hintPenalty: 0,
+        bullseyeBonus: 0,
+        finalScore: 1200,
+      },
+      clueTexts: ['c1', 'c2', 'c3'],
+      practice: true,
+      scored: false,
+    },
+  }
+}
+
 function isOfflineChallenge(
   c: ChallengePublic | ChallengeDailyPublic,
 ): c is ChallengePublic {
@@ -30,12 +92,13 @@ function isOfflineChallenge(
 
 export function useGameSession() {
   const offline = isOfflineClient()
-  const [phase, setPhase] = useState<GamePhase>('title')
+  const e2eBoot = e2eResultBootstrap()
+  const [phase, setPhase] = useState<GamePhase>(() => e2eBoot?.phase ?? 'title')
   const [settings, setSettings] = useState<UserSettings>(() => loadSettings())
   const [progress, setProgress] = useState(() => loadProgress())
   const [challenge, setChallenge] = useState<
     ChallengePublic | ChallengeDailyPublic | null
-  >(null)
+  >(() => e2eBoot?.challenge ?? null)
   const [sessionToken, setSessionToken] = useState<string | null>(null)
   const [dailyMeta, setDailyMeta] = useState<{
     date: string
@@ -53,7 +116,9 @@ export function useGameSession() {
     false,
     false,
   ])
-  const [result, setResult] = useState<GuessResponse | null>(null)
+  const [result, setResult] = useState<GuessResponse | null>(
+    () => e2eBoot?.result ?? null,
+  )
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [isPractice, setIsPractice] = useState(false)
