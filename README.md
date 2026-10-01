@@ -4,6 +4,8 @@ Original night-scene location detective for the browser. Single-player daily cas
 
 Not affiliated with GeoGuessr, Kahoot!, Melatonin, or any proprietary place-game assets.
 
+Live preview: https://mizcausevic-dev.github.io/atlas-after-dark/
+
 ## Setup
 
 ```bash
