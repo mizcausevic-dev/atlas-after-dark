@@ -19,6 +19,12 @@ import {
   type SessionRecord,
 } from './sessionStore.ts'
 import {
+  buildPlayerSetCookieHeader,
+  requestIsSecure,
+  resolvePlayerIdFromRequest,
+} from './playerCookie.ts'
+import { PlayerScoreStore } from './playerScoreStore.ts'
+import {
   createNonce,
   signSession,
   verifySession,
@@ -36,6 +42,7 @@ let challengeCache: ChallengeSecret[] | null = null
 export type ApiDeps = {
   sessionSecret: string
   sessionStore: SessionStore
+  playerScoreStore: PlayerScoreStore
   rateLimit: TokenBucketRateLimit
   now: () => number
 }
@@ -44,6 +51,7 @@ export function createDefaultApiDeps(sessionSecret: string): ApiDeps {
   return {
     sessionSecret,
     sessionStore: new SessionStore(SESSION_TTL_MS),
+    playerScoreStore: new PlayerScoreStore(),
     rateLimit: new TokenBucketRateLimit(30, 60_000),
     now: () => Date.now(),
   }
@@ -175,6 +183,12 @@ function scoreFromSession(
   if (!Number.isFinite(breakdown.finalScore)) {
     return null
   }
+  const priorScored = deps.playerScoreStore.hasScored(
+    record.payload.playerId,
+    record.payload.mode,
+    record.payload.date,
+  )
+  const practice = record.payload.practice || priorScored
   return {
     city: target.city,
     country: target.country,
@@ -184,6 +198,8 @@ function scoreFromSession(
     score: breakdown.finalScore,
     scoreBreakdown: breakdown,
     clueTexts: target.clueTexts,
+    practice,
+    scored: !practice,
   }
 }
 
@@ -237,20 +253,33 @@ export async function handleApi(
       return
     }
     const issuedAt = deps.now()
+    const { playerId, cookieValue } = resolvePlayerIdFromRequest(
+      req.headers.cookie,
+      deps.sessionSecret,
+      issuedAt,
+    )
+    const practice = deps.playerScoreStore.hasScored(playerId, mode, date)
     const payload: SessionPayload = {
       challengeId: challenge.id,
       mode,
       date,
       issuedAt,
       nonce: createNonce(),
+      playerId,
+      practice,
     }
     deps.sessionStore.create(payload, issuedAt)
     const token = signSession(payload, deps.sessionSecret)
+    res.setHeader(
+      'Set-Cookie',
+      buildPlayerSetCookieHeader(cookieValue, requestIsSecure(req)),
+    )
     sendJson(res, 200, {
       date,
       mode,
       index,
       token,
+      practice,
       challenge: {
         id: challenge.id,
         imagePath: challenge.imagePath,
@@ -364,6 +393,20 @@ export async function handleApi(
     if (!response) {
       sendJson(res, 500, { error: 'Score computation failed' })
       return
+    }
+    const priorScored = deps.playerScoreStore.hasScored(
+      session.record.payload.playerId,
+      session.record.payload.mode,
+      session.record.payload.date,
+    )
+    const countsAsScored =
+      !session.record.payload.practice && !priorScored
+    if (countsAsScored) {
+      deps.playerScoreStore.markScored(
+        session.record.payload.playerId,
+        session.record.payload.mode,
+        session.record.payload.date,
+      )
     }
     sendJson(res, 200, response)
     return

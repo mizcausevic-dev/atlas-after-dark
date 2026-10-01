@@ -17,6 +17,8 @@ function samplePayload(overrides: Partial<SessionPayload> = {}): SessionPayload 
     date: '2026-10-01',
     issuedAt: Date.now(),
     nonce: createNonce(),
+    playerId: 'player-test-id',
+    practice: false,
     ...overrides,
   }
 }

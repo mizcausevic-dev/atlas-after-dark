@@ -9,5 +9,6 @@ export type DailyPayload = {
   mode: DifficultyMode
   index: number
   token?: string
+  practice?: boolean
   challenge: ChallengePublic | ChallengeDailyPublic
 }

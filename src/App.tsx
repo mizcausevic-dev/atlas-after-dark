@@ -35,9 +35,11 @@ function ResultBody({
   if (!game.result || !game.challenge) return null
   return (
     <>
-      {showPracticeNote && (
+      {(showPracticeNote ||
+        game.result?.practice ||
+        game.result?.scored === false) && (
         <p className="banner practice" role="status">
-          Practice replay — score not saved to streak or best.
+          Practice (unscored) — not saved to streak or best.
         </p>
       )}
       <h2>

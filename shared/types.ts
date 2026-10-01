@@ -21,6 +21,7 @@ export type DailyStartResponse = {
   mode: DifficultyMode
   index: number
   token: string
+  practice: boolean
   challenge: ChallengeDailyPublic
 }
 
@@ -75,4 +76,8 @@ export type GuessResponse = {
     finalScore: number
   }
   clueTexts: [string, string, string]
+  /** Server session: true when this token is an extra replay for the UTC day. */
+  practice?: boolean
+  /** Server session: false when practice or replay; offline always omitted (treated as scored). */
+  scored?: boolean
 }

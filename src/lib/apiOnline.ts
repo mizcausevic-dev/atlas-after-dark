@@ -24,6 +24,7 @@ export async function fetchDailyOnline(
     mode: data.mode,
     index: data.index,
     token: data.token,
+    practice: data.practice,
     challenge: data.challenge,
   }
 }

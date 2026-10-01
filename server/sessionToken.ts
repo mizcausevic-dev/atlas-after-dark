@@ -7,6 +7,8 @@ export type SessionPayload = {
   date: string
   issuedAt: number
   nonce: string
+  playerId: string
+  practice: boolean
 }
 
 export function createNonce(): string {
@@ -52,6 +54,8 @@ export function verifySession(
     typeof payload.date !== 'string' ||
     typeof payload.issuedAt !== 'number' ||
     typeof payload.nonce !== 'string' ||
+    typeof payload.playerId !== 'string' ||
+    typeof payload.practice !== 'boolean' ||
     !Number.isFinite(payload.issuedAt)
   ) {
     return null

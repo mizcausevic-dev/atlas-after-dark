@@ -8,6 +8,7 @@ import {
   resetChallengeCacheForTests,
   type ApiDeps,
 } from './api.ts'
+import { PLAYER_COOKIE_NAME } from './playerCookie.ts'
 import { TokenBucketRateLimit } from './rateLimit.ts'
 import { utcDateString } from '../shared/dailySeed.ts'
 
@@ -17,11 +18,12 @@ function mockRequest(
   method: string,
   url: string,
   body?: string,
+  headers: Record<string, string> = {},
 ): IncomingMessage {
   const req = new EventEmitter() as IncomingMessage
   req.method = method
   req.url = url
-  req.headers = {}
+  req.headers = headers
   req.socket = { remoteAddress: '127.0.0.1' } as IncomingMessage['socket']
   queueMicrotask(() => {
     if (body) {
@@ -53,17 +55,35 @@ function mockResponse(): MockRes {
   return res
 }
 
+function playerCookieFromHeaders(
+  headers: Record<string, string | number | string[] | undefined>,
+): string | undefined {
+  const raw = headers['set-cookie']
+  const line = Array.isArray(raw) ? raw[0] : raw
+  if (typeof line !== 'string') return undefined
+  const match = line.match(new RegExp(`${PLAYER_COOKIE_NAME}=([^;]+)`))
+  return match ? `${PLAYER_COOKIE_NAME}=${match[1]}` : undefined
+}
+
 async function callApi(
   method: string,
   pathname: string,
   deps: ApiDeps,
-  opts?: { query?: string; body?: unknown; ip?: string },
+  opts?: {
+    query?: string
+    body?: unknown
+    ip?: string
+    cookie?: string
+  },
 ) {
   const url = opts?.query ? `${pathname}?${opts.query}` : pathname
+  const reqHeaders: Record<string, string> = {}
+  if (opts?.cookie) reqHeaders.cookie = opts.cookie
   const req = mockRequest(
     method,
     url,
     opts?.body !== undefined ? JSON.stringify(opts.body) : undefined,
+    reqHeaders,
   )
   const res = mockResponse()
   await handleApi(req, res, pathname, opts?.ip ?? '10.0.0.1', deps)
@@ -73,7 +93,13 @@ async function callApi(
   } catch {
     json = null
   }
-  return { status: res.statusCode, json, headers: res._headers, raw: res._body }
+  return {
+    status: res.statusCode,
+    json,
+    headers: res._headers,
+    raw: res._body,
+    playerCookie: playerCookieFromHeaders(res._headers),
+  }
 }
 
 describe('handleApi sessions', () => {
@@ -92,9 +118,11 @@ describe('handleApi sessions', () => {
     expect(status).toBe(200)
     const data = json as {
       token: string
+      practice: boolean
       challenge: Record<string, unknown>
     }
     expect(data.token).toBeTruthy()
+    expect(data.practice).toBe(false)
     expect(data.challenge.clueTexts).toBeUndefined()
     expect(data.challenge.hintTexts).toBeUndefined()
     expect(data.challenge.hintCount).toBe(3)
@@ -124,10 +152,12 @@ describe('handleApi sessions', () => {
     const token = (daily.json as { token: string }).token
     const first = await callApi('POST', '/api/guess', deps, {
       body: { token, lat: 10, lng: 10 },
+      cookie: daily.playerCookie,
     })
     expect(first.status).toBe(200)
     const second = await callApi('POST', '/api/guess', deps, {
       body: { token, lat: 10, lng: 10 },
+      cookie: daily.playerCookie,
     })
     expect(second.status).toBe(409)
   })
@@ -137,13 +167,17 @@ describe('handleApi sessions', () => {
     const plain = await callApi('GET', '/api/daily', deps, {
       query: `mode=daily&date=${today}`,
     })
+    const cookie = plain.playerCookie
     const hinted = await callApi('GET', '/api/daily', deps, {
       query: `mode=daily&date=${today}`,
+      cookie,
     })
+    expect((hinted.json as { practice: boolean }).practice).toBe(false)
     const plainToken = (plain.json as { token: string }).token
     const hintedToken = (hinted.json as { token: string }).token
     await callApi('POST', '/api/hint', deps, {
       body: { token: hintedToken, index: 0 },
+      cookie,
     })
     const cleanGuess = await callApi('POST', '/api/guess', deps, {
       body: {
@@ -154,6 +188,7 @@ describe('handleApi sessions', () => {
         elapsedMs: 0,
         mode: 'night-owl',
       },
+      cookie,
     })
     const hintedGuess = await callApi('POST', '/api/guess', deps, {
       body: {
@@ -164,6 +199,7 @@ describe('handleApi sessions', () => {
         elapsedMs: 999_999,
         mode: 'rookie',
       },
+      cookie,
     })
     expect(cleanGuess.status).toBe(200)
     expect(hintedGuess.status).toBe(200)
@@ -172,6 +208,8 @@ describe('handleApi sessions', () => {
     expect(Number.isFinite(cleanScore)).toBe(true)
     expect(Number.isFinite(hintedScore)).toBe(true)
     expect(hintedScore).toBeLessThan(cleanScore)
+    expect((hintedGuess.json as { scored: boolean }).scored).toBe(false)
+    expect((cleanGuess.json as { scored: boolean }).scored).toBe(true)
   })
 
   it('(f) rate limit returns 429 with Retry-After', async () => {
@@ -194,5 +232,65 @@ describe('handleApi sessions', () => {
     })
     expect(blocked.status).toBe(429)
     expect(blocked.headers['retry-after']).toBeTruthy()
+  })
+
+  it('second daily token same player same UTC day is practice with unscored guess', async () => {
+    const today = utcDateString()
+    const firstDaily = await callApi('GET', '/api/daily', deps, {
+      query: `mode=daily&date=${today}`,
+    })
+    const cookie = firstDaily.playerCookie
+    expect(cookie).toBeTruthy()
+    const tokenA = (firstDaily.json as { token: string }).token
+    const guessA = await callApi('POST', '/api/guess', deps, {
+      body: { token: tokenA, lat: 0, lng: 0 },
+      cookie,
+    })
+    const target = (guessA.json as { target: { lat: number; lng: number } })
+      .target
+    expect((guessA.json as { scored: boolean }).scored).toBe(true)
+
+    const secondDaily = await callApi('GET', '/api/daily', deps, {
+      query: `mode=daily&date=${today}`,
+      cookie,
+    })
+    expect((secondDaily.json as { practice: boolean }).practice).toBe(true)
+    const tokenB = (secondDaily.json as { token: string }).token
+    const guessB = await callApi('POST', '/api/guess', deps, {
+      body: { token: tokenB, lat: target.lat, lng: target.lng },
+      cookie,
+    })
+    expect(guessB.status).toBe(200)
+    const body = guessB.json as {
+      practice: boolean
+      scored: boolean
+      score: number
+    }
+    expect(body.practice).toBe(true)
+    expect(body.scored).toBe(false)
+    expect(body.score).toBeGreaterThan(6000)
+  })
+
+  it('missing cookie receives Set-Cookie and new player id', async () => {
+    const today = utcDateString()
+    const a = await callApi('GET', '/api/daily', deps, {
+      query: `mode=daily&date=${today}`,
+    })
+    const b = await callApi('GET', '/api/daily', deps, {
+      query: `mode=daily&date=${today}`,
+    })
+    expect(a.playerCookie).toBeTruthy()
+    expect(b.playerCookie).toBeTruthy()
+    expect(a.playerCookie).not.toBe(b.playerCookie)
+  })
+
+  it('tampered player cookie is rejected and replaced', async () => {
+    const today = utcDateString()
+    const tampered = await callApi('GET', '/api/daily', deps, {
+      query: `mode=daily&date=${today}`,
+      cookie: `${PLAYER_COOKIE_NAME}=bad.payload.badsig`,
+    })
+    expect(tampered.playerCookie).toBeTruthy()
+    expect(tampered.playerCookie).not.toContain('bad.payload')
   })
 })

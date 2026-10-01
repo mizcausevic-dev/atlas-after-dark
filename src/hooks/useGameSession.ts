@@ -105,7 +105,7 @@ export function useGameSession() {
     setIsPractice(false)
     const playMode = mode ?? settings.mode
     const date = utcDateString()
-    const prior = loadScoredAttempt(date, playMode)
+    const prior = offline ? loadScoredAttempt(date, playMode) : null
     try {
       const payload = await fetchDaily(playMode, date)
       if (prior) {
@@ -115,13 +115,14 @@ export function useGameSession() {
         return
       }
       applyDailyPayload(payload, playMode, date)
+      setIsPractice(Boolean(payload.practice))
       setPhase('playing')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load daily case')
     } finally {
       setLoading(false)
     }
-  }, [settings.mode, applyDailyPayload])
+  }, [settings.mode, applyDailyPayload, offline])
 
   const startPractice = useCallback(async () => {
     if (!dailyMeta) return
@@ -202,13 +203,17 @@ export function useGameSession() {
           })
       setResult(response)
       setPhase('result')
-      if (!isPractice) {
-        saveScoredAttempt({
-          date: dailyMeta.date,
-          mode: dailyMeta.mode,
-          challengeId: challenge.id,
-          result: response,
-        })
+      const serverScored = response.scored !== false
+      const countsForProgress = !isPractice && serverScored
+      if (countsForProgress) {
+        if (offline) {
+          saveScoredAttempt({
+            date: dailyMeta.date,
+            mode: dailyMeta.mode,
+            challengeId: challenge.id,
+            result: response,
+          })
+        }
         const nextProgress = recordScore(
           progress,
           dailyMeta.date,
@@ -217,6 +222,9 @@ export function useGameSession() {
         )
         setProgress(nextProgress)
         saveProgress(nextProgress)
+      }
+      if (response.practice) {
+        setIsPractice(true)
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not score guess')

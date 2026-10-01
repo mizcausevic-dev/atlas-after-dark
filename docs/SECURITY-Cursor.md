@@ -10,7 +10,11 @@ The Pages build sets `VITE_OFFLINE=true`. Answer coordinates ship in the static 
 - `GET /api/daily` returns a signed session token; coordinates and clue text are withheld until `POST /api/guess`.
 - Hints are served only via `POST /api/hint` and are bound to the token.
 - Session state lives in an **in-memory store with TTL** (`server/sessionStore.ts`). It does **not** sync across multiple Node instances. Use a single instance or add shared storage before horizontal scale.
-- Each token accepts one scored guess (409 on replay).
+- Each token accepts one guess (409 on replay).
+- An anonymous **player id** is stored in an `HttpOnly`, `Secure` (when HTTPS), `SameSite=Lax` cookie signed with `AAD_SESSION_SECRET`. The first `GET /api/daily` without a valid cookie mints a new id.
+- Session tokens bind to that player id. **One scored guess per player id + mode + UTC date.** A second token for the same key on the same date is issued with `practice: true`; its guess response sets `practice: true` and `scored: false` (distance and breakdown still returned for learning).
+- Tampered or expired player cookies are rejected; a fresh id is issued on the next daily fetch.
+- Cookie-based identity stops casual same-browser replays after the answer is revealed. It does **not** stop someone from clearing cookies, using another browser, or scripted abuse. Competitive **leaderboards need real accounts** (or stronger identity), not anonymous cookies alone.
 - Mode, elapsed time, and hints used are derived server-side from the token and session record, not from the client body.
 
 ## Repository

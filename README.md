@@ -59,7 +59,7 @@ npm run build
 PORT=4173 npm run start
 ```
 
-Upload `dist/`, `server/`, `shared/`, and production `package.json` to Hostinger Node hosting or any Node VM. Do not ship `src/data/challenges.offline-answers.json` to competitive production (offline solo only).
+Upload `dist/`, `server/`, `shared/`, and production `package.json` to Hostinger Node hosting or any Node VM. Do not ship `src/data/challenges.offline-answers.json` to competitive production (offline solo only). Server mode sets a signed player cookie for one scored guess per mode per UTC day; see [docs/SECURITY-Cursor.md](./docs/SECURITY-Cursor.md).
 
 **Static-only hosting:** set `VITE_OFFLINE=true` at build time. Scoring uses bundled answers (trust-on-client). Suitable for demos, not leaderboards.
 
