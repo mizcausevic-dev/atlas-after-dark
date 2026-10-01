@@ -1,6 +1,12 @@
 import { writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  climateBandFromLat,
+  climateHintText,
+  paletteHueFromScene,
+  regionHintText,
+} from '../shared/challengeHints.ts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
@@ -43,34 +49,14 @@ const cities = [
   ['marrakech', 'Marrakech', 'Morocco', 31.6295, -7.9811, 'Medina warm lantern tone', 'Atlas foothill air', 'Desert-adjacent night', { skyline: 'low', water: 'none', mountains: true, light: 'warm' }],
 ]
 
-function regionHint(lat, lng) {
-  const absLat = Math.abs(lat)
-  if (lng >= 95 && lng <= 145 && lat >= -10 && lat <= 45) {
-    return 'Regional context: East and Southeast Asian rim.'
-  }
-  if (lng >= -130 && lng <= -60 && lat >= 15 && lat <= 72) {
-    return 'Regional context: Americas (north and tropical band).'
-  }
-  if (lng >= -25 && lng <= 45 && lat >= 35 && lat <= 72) {
-    return 'Regional context: Europe and North Atlantic adjacency.'
-  }
-  if (lng >= -20 && lng <= 55 && lat >= -35 && lat <= 35) {
-    return 'Regional context: Africa and Middle East belt.'
-  }
-  if (lat <= -20 && lng >= 110 && lng <= 180) {
-    return 'Regional context: Australasia and southwest Pacific.'
-  }
-  if (absLat >= 55) {
-    return 'Regional context: High-latitude North Atlantic or Arctic fringe.'
-  }
-  return 'Regional context: Mid-latitude continental or coastal mix.'
-}
-
 function skyStops(hue, lat) {
   const absLat = Math.abs(lat)
-  const topL = absLat > 55 ? 6 : absLat > 35 ? 8 : 10
-  const botL = absLat > 55 ? 14 : absLat > 35 ? 16 : 18
-  return { topL, botL }
+  const band = climateBandFromLat(lat)
+  const topL =
+    band === 'high-latitude' ? 6 : band === 'mid-latitude' ? 8 : 10
+  const botL =
+    band === 'high-latitude' ? 14 : band === 'mid-latitude' ? 16 : 18
+  return { topL, botL, absLat }
 }
 
 function windowFill(light, i) {
@@ -97,11 +83,18 @@ function waterLayer(hue, water, groundY) {
   ${Array.from({ length: 8 }, (_, i) => `<ellipse cx="${80 + i * 95}" cy="${y + h / 2}" rx="40" ry="6" fill="hsl(${hue}, 25%, 22%)" opacity="0.35"/>`).join('')}`
 }
 
+/**
+ * @returns {{ svg: string, moon: { cx: number, cy: number, r: number } }}
+ */
 function buildings(hue, skyline, groundY, light) {
   const counts = { dense: 16, vertical: 14, spread: 11, low: 9 }
   const n = counts[skyline] ?? 12
   const gap = 800 / n
   const parts = []
+  let tallestTop = groundY
+  let tallestCenterX = 400
+  let tallestH = 0
+
   for (let i = 0; i < n; i++) {
     const x = 24 + i * gap
     let w = 28 + (i % 4) * 8
@@ -118,6 +111,11 @@ function buildings(hue, skyline, groundY, light) {
       h += 60
     }
     const y = groundY - h
+    if (h > tallestH) {
+      tallestH = h
+      tallestTop = y
+      tallestCenterX = x + w / 2
+    }
     parts.push(
       `<rect x="${x.toFixed(0)}" y="${y}" width="${w}" height="${h}" fill="hsl(${hue}, 22%, ${18 + (i % 3) * 2}%)" rx="2"/>`,
     )
@@ -129,7 +127,15 @@ function buildings(hue, skyline, groundY, light) {
       }
     }
   }
-  return parts.join('\n  ')
+
+  const moonR = 34
+  const moonCy = Math.max(48, tallestTop - moonR * 0.55)
+  const moonCx = Math.min(720, Math.max(80, tallestCenterX))
+
+  return {
+    svg: parts.join('\n  '),
+    moon: { cx: moonCx, cy: moonCy, r: moonR },
+  }
 }
 
 function aurora(hue) {
@@ -140,7 +146,7 @@ function aurora(hue) {
 function svgForChallenge(challengeId, hue, lat, scene) {
   const groundY = 320
   const { topL, botL } = skyStops(hue, lat)
-  const moonY = lat >= 0 ? 85 : 95
+  const { svg: bldg, moon } = buildings(hue, scene.skyline, groundY, scene.light)
   let layers = ''
   if (scene.mountains) {
     layers += `\n  ${mountainLayer(hue)}`
@@ -152,7 +158,6 @@ function svgForChallenge(challengeId, hue, lat, scene) {
   if (scene.extra === 'snow') {
     layers += `\n  <rect y="250" width="800" height="90" fill="hsl(${hue}, 15%, 88%)" opacity="0.08"/>`
   }
-  const bldg = buildings(hue, scene.skyline, groundY, scene.light)
   return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-label="Demo night scene">
   <defs>
     <linearGradient id="sky-${challengeId}" x1="0" y1="0" x2="0" y2="1">
@@ -161,7 +166,7 @@ function svgForChallenge(challengeId, hue, lat, scene) {
     </linearGradient>
   </defs>
   <rect width="800" height="500" fill="url(#sky-${challengeId})"/>
-  <circle cx="620" cy="${moonY}" r="36" fill="hsl(${hue}, 28%, 78%)" opacity="0.82"/>${layers}
+  <circle cx="${moon.cx.toFixed(1)}" cy="${moon.cy.toFixed(1)}" r="${moon.r}" fill="hsl(${hue}, 28%, 78%)" opacity="0.82"/>${layers}
   <rect y="${groundY}" width="800" height="${500 - groundY}" fill="hsl(${hue}, 25%, 11%)"/>
   ${bldg}
   <text x="24" y="488" fill="hsl(${hue}, 12%, 48%)" font-family="system-ui,sans-serif" font-size="13">Demo fixture — stylized night scene</text>
@@ -171,7 +176,8 @@ function svgForChallenge(challengeId, hue, lat, scene) {
 const challenges = cities.map(
   ([_slug, city, country, lat, lng, c1, c2, c3, scene], i) => {
     const id = `aad-${String(i + 1).padStart(2, '0')}`
-    const hue = (i * 37) % 360
+    const band = climateBandFromLat(lat)
+    const hue = paletteHueFromScene(scene.light, band)
     const file = `${id}.svg`
     writeFileSync(
       join(photoDir, file),
@@ -180,8 +186,8 @@ const challenges = cities.map(
     )
     const hintTexts = [
       `Hemisphere: ${lat >= 0 ? 'Northern' : 'Southern'} half of the globe.`,
-      `Climate band: ${Math.abs(lat) > 45 ? 'High-latitude' : Math.abs(lat) < 23.5 ? 'Tropical/subtropical' : 'Mid-latitude'} feel.`,
-      regionHint(lat, lng),
+      climateHintText(lat),
+      regionHintText(lat, lng),
     ]
     return {
       id,

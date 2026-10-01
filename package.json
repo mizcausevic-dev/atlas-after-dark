@@ -12,7 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "generate:content": "node scripts/generate-challenges.mjs"
+    "generate:content": "tsx scripts/generate-challenges.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

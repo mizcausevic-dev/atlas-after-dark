@@ -6,7 +6,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Regional context: East and Southeast Asian rim."
+      "Regional context: East Asia and Southwest Pacific (mid-latitude)."
     ],
     "clueTexts": [
       "Pacific rim megacity glow",
@@ -21,7 +21,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Regional context: Americas (north and tropical band)."
+      "Regional context: Americas Atlantic coast (north and south)."
     ],
     "clueTexts": [
       "Grid of amber windows",
@@ -35,8 +35,8 @@
     "title": "Night signal 3",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: High-latitude feel.",
-      "Regional context: Europe and North Atlantic adjacency."
+      "Climate band: Mid-latitude feel.",
+      "Regional context: Europe (mid-latitude)."
     ],
     "clueTexts": [
       "Warm stone under cool moon",
@@ -50,8 +50,8 @@
     "title": "Night signal 4",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
-      "Climate band: Mid-latitude feel.",
-      "Regional context: Australasia and southwest Pacific."
+      "Climate band: Subtropical feel.",
+      "Regional context: Southern subtropical coasts (Atlantic, Indian, and Pacific)."
     ],
     "clueTexts": [
       "Harbor ring of light",
@@ -65,8 +65,8 @@
     "title": "Night signal 5",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Mid-latitude feel.",
-      "Regional context: Africa and Middle East belt."
+      "Climate band: Subtropical feel.",
+      "Regional context: North Africa and Middle East (subtropical)."
     ],
     "clueTexts": [
       "Desert air, dense core",
@@ -81,7 +81,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Regional context: Europe and North Atlantic adjacency."
+      "Regional context: High-latitude North Atlantic Europe."
     ],
     "clueTexts": [
       "Low sun never truly sets in season",
@@ -95,8 +95,8 @@
     "title": "Night signal 7",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: East and Southeast Asian rim."
+      "Climate band: Tropical feel.",
+      "Regional context: South and Southeast Asia (tropical)."
     ],
     "clueTexts": [
       "Tropical humidity sheen",
@@ -110,8 +110,8 @@
     "title": "Night signal 8",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
-      "Climate band: Mid-latitude feel.",
-      "Regional context: Africa and Middle East belt."
+      "Climate band: Subtropical feel.",
+      "Regional context: Southern subtropical coasts (Atlantic, Indian, and Pacific)."
     ],
     "clueTexts": [
       "Table-shaped shadow",
@@ -125,8 +125,8 @@
     "title": "Night signal 9",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: Mid-latitude continental or coastal mix."
+      "Climate band: Tropical feel.",
+      "Regional context: South and Southeast Asia (tropical)."
     ],
     "clueTexts": [
       "Monsoon-washed asphalt shine",
@@ -140,8 +140,8 @@
     "title": "Night signal 10",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
-      "Climate band: Mid-latitude feel.",
-      "Regional context: Mid-latitude continental or coastal mix."
+      "Climate band: Subtropical feel.",
+      "Regional context: Americas Atlantic coast (north and south)."
     ],
     "clueTexts": [
       "Wide boulevard geometry",
@@ -155,8 +155,8 @@
     "title": "Night signal 11",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: High-latitude feel.",
-      "Regional context: Europe and North Atlantic adjacency."
+      "Climate band: Mid-latitude feel.",
+      "Regional context: Europe (mid-latitude)."
     ],
     "clueTexts": [
       "Brick and fog diffusion",
@@ -170,8 +170,8 @@
     "title": "Night signal 12",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: East and Southeast Asian rim."
+      "Climate band: Tropical feel.",
+      "Regional context: South and Southeast Asia (tropical)."
     ],
     "clueTexts": [
       "Vertical light canyon",
@@ -185,8 +185,8 @@
     "title": "Night signal 13",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Mid-latitude feel.",
-      "Regional context: Mid-latitude continental or coastal mix."
+      "Climate band: Subtropical feel.",
+      "Regional context: North Africa and Middle East (subtropical)."
     ],
     "clueTexts": [
       "Glass tower reflections",
@@ -201,7 +201,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Regional context: East and Southeast Asian rim."
+      "Regional context: East Asia and Southwest Pacific (mid-latitude)."
     ],
     "clueTexts": [
       "Mountain bowl metropolis",
@@ -215,8 +215,8 @@
     "title": "Night signal 15",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: Americas (north and tropical band)."
+      "Climate band: Tropical feel.",
+      "Regional context: Pacific Americas (tropical)."
     ],
     "clueTexts": [
       "High-altitude basin glow",
@@ -231,7 +231,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Regional context: Europe and North Atlantic adjacency."
+      "Regional context: High-latitude North Atlantic Europe."
     ],
     "clueTexts": [
       "Archipelago dark water",
@@ -245,8 +245,8 @@
     "title": "Night signal 17",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: Africa and Middle East belt."
+      "Climate band: Tropical feel.",
+      "Regional context: South and Southeast Asia (tropical)."
     ],
     "clueTexts": [
       "High plateau cool night",
@@ -261,7 +261,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Regional context: High-latitude North Atlantic or Arctic fringe."
+      "Regional context: North Pacific rim (Americas)."
     ],
     "clueTexts": [
       "Long twilight linger",
@@ -276,7 +276,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Regional context: Australasia and southwest Pacific."
+      "Regional context: East Asia and Southwest Pacific (mid-latitude)."
     ],
     "clueTexts": [
       "Windy harbor crescent",
@@ -290,8 +290,8 @@
     "title": "Night signal 20",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: Mid-latitude continental or coastal mix."
+      "Climate band: Tropical feel.",
+      "Regional context: Pacific Americas (tropical)."
     ],
     "clueTexts": [
       "Pacific trade winds",
@@ -306,7 +306,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Regional context: Europe and North Atlantic adjacency."
+      "Regional context: High-latitude North Atlantic Europe."
     ],
     "clueTexts": [
       "Fjord inlet mirror",
@@ -320,8 +320,8 @@
     "title": "Night signal 22",
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
-      "Climate band: Tropical/subtropical feel.",
-      "Regional context: Mid-latitude continental or coastal mix."
+      "Climate band: Tropical feel.",
+      "Regional context: Pacific Americas (tropical)."
     ],
     "clueTexts": [
       "Coastal garua mist",
@@ -336,7 +336,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Regional context: Europe and North Atlantic adjacency."
+      "Regional context: Europe (mid-latitude)."
     ],
     "clueTexts": [
       "Strait bridge necklaces",
@@ -350,8 +350,8 @@
     "title": "Night signal 24",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: High-latitude feel.",
-      "Regional context: Americas (north and tropical band)."
+      "Climate band: Mid-latitude feel.",
+      "Regional context: North Pacific rim (Americas)."
     ],
     "clueTexts": [
       "Rain-slick reflections",
@@ -365,8 +365,8 @@
     "title": "Night signal 25",
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
-      "Climate band: Mid-latitude feel.",
-      "Regional context: Africa and Middle East belt."
+      "Climate band: Subtropical feel.",
+      "Regional context: North Africa and Middle East (subtropical)."
     ],
     "clueTexts": [
       "Medina warm lantern tone",

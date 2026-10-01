@@ -158,13 +158,21 @@ export function MapBoard({
           reducedMotion={reducedMotion}
           enabled={fitGuessAndTarget}
         />
-        {guess && <Marker position={[guess.lat, guess.lng]} />}
+        {guess && (
+          <Marker
+            position={[guess.lat, guess.lng]}
+            keyboard={false}
+            title="Your guess"
+          />
+        )}
         {target && (
           <Marker
             position={[target.lat, target.lng]}
+            keyboard={false}
+            title="Actual location"
             icon={L.divIcon({
               className: 'target-pin',
-              html: '<span aria-hidden="true"></span>',
+              html: '<span aria-hidden="true" title="Actual location"></span>',
               iconSize: [16, 16],
               iconAnchor: [8, 8],
             })}
