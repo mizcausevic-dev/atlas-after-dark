@@ -70,8 +70,4 @@ Upload `dist/`, `server/`, `shared/`, and production `package.json` to Hostinger
 
 See [docs/ARCHITECTURE-Cursor.md](./docs/ARCHITECTURE-Cursor.md#assumptions-unverified).
 
-## GitHub About (suggested)
 
-**Description:** Night-photo location detective — daily map pin game with licensed demo fixtures and disclosed scoring.
-
-**Topics:** `react`, `typescript`, `vite`, `leaflet`, `geography-game`, `daily-game`, `openstreetmap`, `vitest`, `playwright`, `night-photography`
