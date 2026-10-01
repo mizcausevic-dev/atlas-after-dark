@@ -1,37 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Demo night scene">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-label="Demo night scene">
   <defs>
     <linearGradient id="sky-aad-16" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="hsl(195, 45%, 8%)"/>
-      <stop offset="100%" stop-color="hsl(195, 35%, 18%)"/>
+      <stop offset="0%" stop-color="hsl(195, 45%, 6%)"/>
+      <stop offset="100%" stop-color="hsl(195, 35%, 14%)"/>
     </linearGradient>
   </defs>
   <rect width="800" height="500" fill="url(#sky-aad-16)"/>
-  <circle cx="620" cy="90" r="40" fill="hsl(195, 30%, 75%)" opacity="0.85"/>
-  <rect y="320" width="800" height="180" fill="hsl(195, 25%, 12%)"/>
-  <rect x="40" y="240" width="36" height="80" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="46" y="252" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="60" y="268" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="102" y="205" width="36" height="115" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="108" y="217" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="122" y="233" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="164" y="170" width="36" height="150" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="170" y="182" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="184" y="198" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="226" y="135" width="36" height="185" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="232" y="147" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="246" y="163" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="288" y="100" width="36" height="220" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="294" y="112" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="308" y="128" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="350" y="240" width="36" height="80" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="356" y="252" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="370" y="268" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="412" y="205" width="36" height="115" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="418" y="217" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="432" y="233" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="474" y="170" width="36" height="150" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="480" y="182" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="494" y="198" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="536" y="135" width="36" height="185" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="542" y="147" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="556" y="163" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="598" y="100" width="36" height="220" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="604" y="112" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="618" y="128" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="660" y="240" width="36" height="80" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="666" y="252" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="680" y="268" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/><rect x="722" y="205" width="36" height="115" fill="hsl(195, 20%, 22%)" rx="2"/>
-    <rect x="728" y="217" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.9"/>
-    <rect x="742" y="233" width="8" height="10" fill="hsl(45, 90%, 65%)" opacity="0.7"/>
-  <text x="24" y="480" fill="hsl(195, 15%, 55%)" font-family="system-ui,sans-serif" font-size="14">Demo fixture — not a photograph</text>
+  <circle cx="620" cy="85" r="36" fill="hsl(195, 28%, 78%)" opacity="0.82"/>
+  <path d="M0 350 Q200 310 400 340 T800 330 L800 500 L0 500 Z" fill="hsl(195, 40%, 12%)" opacity="0.75"/><rect y="300" width="800" height="120" fill="hsl(195, 40%, 12%)" opacity="0.9"/>
+  <ellipse cx="80" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="175" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="270" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="365" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="460" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="555" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="650" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/><ellipse cx="745" cy="360" rx="40" ry="6" fill="hsl(195, 25%, 22%)" opacity="0.35"/>
+  <rect y="320" width="800" height="180" fill="hsl(195, 25%, 11%)"/>
+  <rect x="24" y="275" width="28" height="45" fill="hsl(195, 22%, 18%)" rx="2"/>
+  <rect x="30" y="285" width="7" height="9" fill="hsl(38, 92%, 58%)" opacity="0.85"/>
+  <rect x="113" y="253" width="36" height="67" fill="hsl(195, 22%, 20%)" rx="2"/>
+  <rect x="118.88888888888889" y="287" width="7" height="9" fill="hsl(38, 92%, 70%)" opacity="0.85"/>
+  <rect x="202" y="231" width="44" height="89" fill="hsl(195, 22%, 22%)" rx="2"/>
+  <rect x="207.77777777777777" y="241" width="7" height="9" fill="hsl(38, 92%, 70%)" opacity="0.85"/>
+  <rect x="207.77777777777777" y="289" width="7" height="9" fill="hsl(38, 92%, 64%)" opacity="0.85"/>
+  <rect x="291" y="209" width="52" height="111" fill="hsl(195, 22%, 18%)" rx="2"/>
+  <rect x="296.66666666666663" y="243" width="7" height="9" fill="hsl(38, 92%, 64%)" opacity="0.85"/>
+  <rect x="380" y="275" width="28" height="45" fill="hsl(195, 22%, 20%)" rx="2"/>
+  <rect x="385.55555555555554" y="285" width="7" height="9" fill="hsl(38, 92%, 64%)" opacity="0.85"/>
+  <rect x="468" y="253" width="36" height="67" fill="hsl(195, 22%, 22%)" rx="2"/>
+  <rect x="474.44444444444446" y="287" width="7" height="9" fill="hsl(38, 92%, 58%)" opacity="0.85"/>
+  <rect x="557" y="231" width="44" height="89" fill="hsl(195, 22%, 18%)" rx="2"/>
+  <rect x="563.3333333333333" y="241" width="7" height="9" fill="hsl(38, 92%, 58%)" opacity="0.85"/>
+  <rect x="563.3333333333333" y="289" width="7" height="9" fill="hsl(38, 92%, 70%)" opacity="0.85"/>
+  <rect x="646" y="209" width="52" height="111" fill="hsl(195, 22%, 20%)" rx="2"/>
+  <rect x="652.2222222222222" y="243" width="7" height="9" fill="hsl(38, 92%, 70%)" opacity="0.85"/>
+  <rect x="735" y="275" width="28" height="45" fill="hsl(195, 22%, 22%)" rx="2"/>
+  <rect x="741.1111111111111" y="285" width="7" height="9" fill="hsl(38, 92%, 70%)" opacity="0.85"/>
+  <text x="24" y="488" fill="hsl(195, 12%, 48%)" font-family="system-ui,sans-serif" font-size="13">Demo fixture — stylized night scene</text>
 </svg>

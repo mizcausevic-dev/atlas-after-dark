@@ -6,7 +6,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Pacific rim megacity glow."
+      "Regional context: East and Southeast Asian rim."
     ],
     "clueTexts": [
       "Pacific rim megacity glow",
@@ -21,7 +21,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Grid of amber windows."
+      "Regional context: Americas (north and tropical band)."
     ],
     "clueTexts": [
       "Grid of amber windows",
@@ -36,7 +36,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Warm stone under cool moon."
+      "Regional context: Europe and North Atlantic adjacency."
     ],
     "clueTexts": [
       "Warm stone under cool moon",
@@ -51,7 +51,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Harbor ring of light."
+      "Regional context: Australasia and southwest Pacific."
     ],
     "clueTexts": [
       "Harbor ring of light",
@@ -66,7 +66,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Desert air, dense core."
+      "Regional context: Africa and Middle East belt."
     ],
     "clueTexts": [
       "Desert air, dense core",
@@ -81,7 +81,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Low sun never truly sets in season."
+      "Regional context: Europe and North Atlantic adjacency."
     ],
     "clueTexts": [
       "Low sun never truly sets in season",
@@ -96,7 +96,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: Tropical humidity sheen."
+      "Regional context: East and Southeast Asian rim."
     ],
     "clueTexts": [
       "Tropical humidity sheen",
@@ -111,7 +111,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Table-shaped shadow."
+      "Regional context: Africa and Middle East belt."
     ],
     "clueTexts": [
       "Table-shaped shadow",
@@ -126,7 +126,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: Monsoon-washed asphalt shine."
+      "Regional context: Mid-latitude continental or coastal mix."
     ],
     "clueTexts": [
       "Monsoon-washed asphalt shine",
@@ -141,7 +141,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Wide boulevard geometry."
+      "Regional context: Mid-latitude continental or coastal mix."
     ],
     "clueTexts": [
       "Wide boulevard geometry",
@@ -156,7 +156,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Brick and fog diffusion."
+      "Regional context: Europe and North Atlantic adjacency."
     ],
     "clueTexts": [
       "Brick and fog diffusion",
@@ -171,7 +171,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: Vertical light canyon."
+      "Regional context: East and Southeast Asian rim."
     ],
     "clueTexts": [
       "Vertical light canyon",
@@ -186,7 +186,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Glass tower reflections."
+      "Regional context: Mid-latitude continental or coastal mix."
     ],
     "clueTexts": [
       "Glass tower reflections",
@@ -201,7 +201,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Mountain bowl metropolis."
+      "Regional context: East and Southeast Asian rim."
     ],
     "clueTexts": [
       "Mountain bowl metropolis",
@@ -216,7 +216,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: High-altitude basin glow."
+      "Regional context: Americas (north and tropical band)."
     ],
     "clueTexts": [
       "High-altitude basin glow",
@@ -231,7 +231,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Archipelago dark water."
+      "Regional context: Europe and North Atlantic adjacency."
     ],
     "clueTexts": [
       "Archipelago dark water",
@@ -246,7 +246,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: High plateau cool night."
+      "Regional context: Africa and Middle East belt."
     ],
     "clueTexts": [
       "High plateau cool night",
@@ -261,7 +261,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Long twilight linger."
+      "Regional context: High-latitude North Atlantic or Arctic fringe."
     ],
     "clueTexts": [
       "Long twilight linger",
@@ -276,7 +276,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Windy harbor crescent."
+      "Regional context: Australasia and southwest Pacific."
     ],
     "clueTexts": [
       "Windy harbor crescent",
@@ -291,7 +291,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: Pacific trade winds."
+      "Regional context: Mid-latitude continental or coastal mix."
     ],
     "clueTexts": [
       "Pacific trade winds",
@@ -306,7 +306,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Fjord inlet mirror."
+      "Regional context: Europe and North Atlantic adjacency."
     ],
     "clueTexts": [
       "Fjord inlet mirror",
@@ -321,7 +321,7 @@
     "hintTexts": [
       "Hemisphere: Southern half of the globe.",
       "Climate band: Tropical/subtropical feel.",
-      "Environment: Coastal garua mist."
+      "Regional context: Mid-latitude continental or coastal mix."
     ],
     "clueTexts": [
       "Coastal garua mist",
@@ -336,7 +336,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Strait bridge necklaces."
+      "Regional context: Europe and North Atlantic adjacency."
     ],
     "clueTexts": [
       "Strait bridge necklaces",
@@ -351,7 +351,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: High-latitude feel.",
-      "Environment: Rain-slick reflections."
+      "Regional context: Americas (north and tropical band)."
     ],
     "clueTexts": [
       "Rain-slick reflections",
@@ -366,7 +366,7 @@
     "hintTexts": [
       "Hemisphere: Northern half of the globe.",
       "Climate band: Mid-latitude feel.",
-      "Environment: Medina warm lantern tone."
+      "Regional context: Africa and Middle East belt."
     ],
     "clueTexts": [
       "Medina warm lantern tone",
