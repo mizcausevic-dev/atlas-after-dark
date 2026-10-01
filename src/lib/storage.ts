@@ -1,4 +1,4 @@
-import type { DifficultyMode } from '../../shared/types'
+import type { DifficultyMode, GuessResponse } from '../../shared/types'
 
 export type UserSettings = {
   mode: DifficultyMode
@@ -12,19 +12,36 @@ export type LocalProgress = {
   bestByMode: Partial<Record<DifficultyMode, number>>
 }
 
+export type ScoredAttempt = {
+  date: string
+  mode: DifficultyMode
+  challengeId: string
+  result: GuessResponse
+}
+
 const SETTINGS_KEY = 'aad_settings_v1'
 const PROGRESS_KEY = 'aad_progress_v1'
+const ATTEMPTS_KEY = 'aad_scored_attempts_v1'
+
+function prefersReducedMotionDefault(): boolean {
+  if (typeof window === 'undefined' || !window.matchMedia) return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
 
 const defaultSettings: UserSettings = {
   mode: 'daily',
   highContrast: false,
-  reducedMotion: false,
+  reducedMotion: prefersReducedMotionDefault(),
 }
 
 const defaultProgress: LocalProgress = {
   lastPlayedDate: null,
   streak: 0,
   bestByMode: {},
+}
+
+export function attemptKey(date: string, mode: DifficultyMode): string {
+  return `${date}|${mode}`
 }
 
 export function loadSettings(): UserSettings {
@@ -38,7 +55,11 @@ export function loadSettings(): UserSettings {
 }
 
 export function saveSettings(settings: UserSettings) {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
+  } catch {
+    /* private mode / quota */
+  }
 }
 
 export function loadProgress(): LocalProgress {
@@ -52,7 +73,36 @@ export function loadProgress(): LocalProgress {
 }
 
 export function saveProgress(progress: LocalProgress) {
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress))
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress))
+  } catch {
+    /* private mode / quota */
+  }
+}
+
+export function loadScoredAttempt(
+  date: string,
+  mode: DifficultyMode,
+): ScoredAttempt | null {
+  try {
+    const raw = localStorage.getItem(ATTEMPTS_KEY)
+    if (!raw) return null
+    const map = JSON.parse(raw) as Record<string, ScoredAttempt>
+    return map[attemptKey(date, mode)] ?? null
+  } catch {
+    return null
+  }
+}
+
+export function saveScoredAttempt(record: ScoredAttempt) {
+  try {
+    const raw = localStorage.getItem(ATTEMPTS_KEY)
+    const map = raw ? (JSON.parse(raw) as Record<string, ScoredAttempt>) : {}
+    map[attemptKey(record.date, record.mode)] = record
+    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(map))
+  } catch {
+    /* private mode / quota */
+  }
 }
 
 export function recordScore(

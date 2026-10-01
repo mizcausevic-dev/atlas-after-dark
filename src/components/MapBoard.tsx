@@ -1,9 +1,10 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import {
   MapContainer,
   TileLayer,
   Marker,
   Polyline,
+  useMap,
   useMapEvents,
 } from 'react-leaflet'
 import L from 'leaflet'
@@ -28,6 +29,7 @@ type MapBoardProps = {
   onGuess: (pos: LatLng) => void
   disabled: boolean
   reducedMotion: boolean
+  fitGuessAndTarget?: boolean
 }
 
 function ClickLayer({
@@ -46,12 +48,40 @@ function ClickLayer({
   return null
 }
 
+function FitGuessTarget({
+  guess,
+  target,
+  reducedMotion,
+  enabled,
+}: {
+  guess: LatLng | null
+  target: LatLng | null
+  reducedMotion: boolean
+  enabled: boolean
+}) {
+  const map = useMap()
+  useEffect(() => {
+    if (!enabled || !guess || !target) return
+    const bounds = L.latLngBounds(
+      [guess.lat, guess.lng],
+      [target.lat, target.lng],
+    )
+    map.fitBounds(bounds, {
+      padding: [48, 48],
+      animate: !reducedMotion,
+      maxZoom: 8,
+    })
+  }, [enabled, guess, target, map, reducedMotion])
+  return null
+}
+
 export function MapBoard({
   guess,
   target,
   onGuess,
   disabled,
   reducedMotion,
+  fitGuessAndTarget = false,
 }: MapBoardProps) {
   const nudge = useCallback(
     (dLat: number, dLng: number) => {
@@ -112,13 +142,22 @@ export function MapBoard({
         minZoom={2}
         maxZoom={12}
         className="map-frame"
-        scrollWheelZoom={!reducedMotion}
+        scrollWheelZoom
+        zoomAnimation={!reducedMotion}
+        fadeAnimation={!reducedMotion}
+        markerZoomAnimation={!reducedMotion}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <ClickLayer onGuess={onGuess} disabled={disabled} />
+        <FitGuessTarget
+          guess={guess}
+          target={target}
+          reducedMotion={reducedMotion}
+          enabled={fitGuessAndTarget}
+        />
         {guess && <Marker position={[guess.lat, guess.lng]} />}
         {target && (
           <Marker
@@ -134,7 +173,12 @@ export function MapBoard({
         {line && (
           <Polyline
             positions={line as [number, number][]}
-            pathOptions={{ color: '#66fcf1', weight: 2, dashArray: '6 8' }}
+            pathOptions={{
+              color: '#ffd166',
+              weight: 3,
+              opacity: 0.95,
+              dashArray: '8 6',
+            }}
           />
         )}
       </MapContainer>

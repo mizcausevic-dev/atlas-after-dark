@@ -12,7 +12,7 @@ test('Enter on Lock in guess submits when map is not focused', async ({ page }) 
   await page.keyboard.press('ArrowUp')
   await page.getByRole('button', { name: /Lock in guess/i }).focus()
   await page.keyboard.press('Enter')
-  await expect(page.getByText(/Score \d+ \/ 10,000/)).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByText(/Score \d+ \/ 6,300/)).toBeVisible({ timeout: 15_000 })
 })
 
 test('Space on Lock in guess submits', async ({ page }) => {
@@ -21,7 +21,7 @@ test('Space on Lock in guess submits', async ({ page }) => {
   await page.keyboard.press('ArrowUp')
   await page.getByRole('button', { name: /Lock in guess/i }).focus()
   await page.keyboard.press('Space')
-  await expect(page.getByText(/Score \d+ \/ 10,000/)).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByText(/Score \d+ \/ 6,300/)).toBeVisible({ timeout: 15_000 })
 })
 
 test('Enter on Reveal hint 1 reveals hint without map intercepting', async ({ page }) => {

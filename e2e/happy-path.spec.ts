@@ -12,7 +12,7 @@ test('daily case happy path: start, pin, score, clues', async ({ page }) => {
   expect(naturalWidth).toBeGreaterThan(0)
   await page.locator('.leaflet-container').click({ position: { x: 220, y: 160 } })
   await page.getByRole('button', { name: /Lock in guess/i }).click()
-  await expect(page.getByText(/Score \d+ \/ 10,000/)).toBeVisible({ timeout: 15_000 })
+  await expect(page.getByText(/Score \d+ \/ 6,300/)).toBeVisible({ timeout: 15_000 })
   await expect(page.getByRole('heading', { level: 2 })).toContainText(',')
   await expect(page.getByRole('button', { name: 'Play again' })).toBeVisible()
 })

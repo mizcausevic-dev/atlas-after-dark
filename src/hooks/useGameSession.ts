@@ -9,14 +9,16 @@ import { utcDateString } from '../../shared/dailySeed'
 import { fetchDaily, isOfflineClient, revealHint, submitGuess } from '../lib/api'
 import {
   loadProgress,
+  loadScoredAttempt,
   loadSettings,
   recordScore,
   saveProgress,
+  saveScoredAttempt,
   saveSettings,
   type UserSettings,
 } from '../lib/storage'
 
-export type GamePhase = 'title' | 'playing' | 'result'
+export type GamePhase = 'title' | 'playing' | 'result' | 'daily-locked'
 
 const HINT_SLOTS = 3
 
@@ -54,6 +56,7 @@ export function useGameSession() {
   const [result, setResult] = useState<GuessResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [isPractice, setIsPractice] = useState(false)
   const startMs = useRef<number | null>(null)
   const [elapsedMs, setElapsedMs] = useState(0)
 
@@ -69,34 +72,72 @@ export function useGameSession() {
     return () => window.clearInterval(id)
   }, [phase])
 
-  const startGame = useCallback(async (mode?: DifficultyMode) => {
-    setError(null)
-    setLoading(true)
-    const playMode = mode ?? settings.mode
-    const date = utcDateString()
-    try {
-      const payload = await fetchDaily(playMode, date)
+  const resetRoundState = useCallback(() => {
+    setGuess(null)
+    setHintsUsed(0)
+    setRevealedHints([false, false, false])
+    setHintTexts([null, null, null])
+    setResult(null)
+    startMs.current = Date.now()
+    setElapsedMs(0)
+  }, [])
+
+  const applyDailyPayload = useCallback(
+    (
+      payload: Awaited<ReturnType<typeof fetchDaily>>,
+      playMode: DifficultyMode,
+      date: string,
+    ) => {
       setChallenge(payload.challenge)
       setSessionToken(payload.token ?? null)
       setDailyMeta({ date, mode: playMode })
-      setGuess(null)
-      setHintsUsed(0)
-      setRevealedHints([false, false, false])
+      resetRoundState()
       if (isOfflineChallenge(payload.challenge)) {
         setHintTexts([...payload.challenge.hintTexts])
-      } else {
-        setHintTexts([null, null, null])
       }
-      setResult(null)
-      startMs.current = Date.now()
-      setElapsedMs(0)
+    },
+    [resetRoundState],
+  )
+
+  const startGame = useCallback(async (mode?: DifficultyMode) => {
+    setError(null)
+    setLoading(true)
+    setIsPractice(false)
+    const playMode = mode ?? settings.mode
+    const date = utcDateString()
+    const prior = loadScoredAttempt(date, playMode)
+    try {
+      const payload = await fetchDaily(playMode, date)
+      if (prior) {
+        applyDailyPayload(payload, playMode, date)
+        setResult(prior.result)
+        setPhase('daily-locked')
+        return
+      }
+      applyDailyPayload(payload, playMode, date)
       setPhase('playing')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load daily case')
     } finally {
       setLoading(false)
     }
-  }, [settings.mode])
+  }, [settings.mode, applyDailyPayload])
+
+  const startPractice = useCallback(async () => {
+    if (!dailyMeta) return
+    setError(null)
+    setLoading(true)
+    setIsPractice(true)
+    try {
+      const payload = await fetchDaily(dailyMeta.mode, dailyMeta.date)
+      applyDailyPayload(payload, dailyMeta.mode, dailyMeta.date)
+      setPhase('playing')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to load practice case')
+    } finally {
+      setLoading(false)
+    }
+  }, [dailyMeta, applyDailyPayload])
 
   const revealHintAt = useCallback(
     async (index: number) => {
@@ -161,14 +202,22 @@ export function useGameSession() {
           })
       setResult(response)
       setPhase('result')
-      const nextProgress = recordScore(
-        progress,
-        dailyMeta.date,
-        dailyMeta.mode,
-        response.score,
-      )
-      setProgress(nextProgress)
-      saveProgress(nextProgress)
+      if (!isPractice) {
+        saveScoredAttempt({
+          date: dailyMeta.date,
+          mode: dailyMeta.mode,
+          challengeId: challenge.id,
+          result: response,
+        })
+        const nextProgress = recordScore(
+          progress,
+          dailyMeta.date,
+          dailyMeta.mode,
+          response.score,
+        )
+        setProgress(nextProgress)
+        saveProgress(nextProgress)
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not score guess')
     } finally {
@@ -183,6 +232,7 @@ export function useGameSession() {
     progress,
     offline,
     sessionToken,
+    isPractice,
   ])
 
   const restart = useCallback(() => {
@@ -192,6 +242,8 @@ export function useGameSession() {
     setResult(null)
     setGuess(null)
     setError(null)
+    setIsPractice(false)
+    setDailyMeta(null)
   }, [])
 
   const timerLabel = useMemo(() => {
@@ -200,6 +252,9 @@ export function useGameSession() {
     const r = s % 60
     return `${m}:${String(r).padStart(2, '0')}`
   }, [elapsedMs])
+
+  const bestForSelectedMode =
+    progress.bestByMode[settings.mode] ?? null
 
   return {
     phase,
@@ -219,7 +274,10 @@ export function useGameSession() {
     error,
     loading,
     offline,
+    isPractice,
+    bestForSelectedMode,
     startGame,
+    startPractice,
     confirmGuess,
     restart,
     timerLabel,
